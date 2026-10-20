@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="es-DO">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel Las Cañas · La Romana</title>
+  <meta name="description" content="Hotel Las Cañas, un hotel acogedor en La Romana, República Dominicana, en la costa sureste cerca de Playa Las Cañas. Tu descanso en La Romana." />
+  <meta name="theme-color" content="#153e33" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <!-- Aplica el tema antes de pintar (script externo, compatible con CSP estricta). -->
+  <script src="theme-init.js"></script>
+
+  <!-- Pares tipográficos de los temas (serif de títulos + sans de cuerpo). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Enlace de salto para accesibilidad por teclado -->
+  <a class="skip-link" href="#contenido" data-i18n="nav.skip">Saltar al contenido</a>
+
+  <!-- Indicador de progreso de scroll (barra fina, color de acento del tema) -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"><i></i></div>
+
+  <!-- ===== Barra de navegación ===== -->
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a class="brand" href="#top" aria-label="Hotel Las Cañas, inicio" data-i18n-aria="nav.brandAria">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 20V9l8-5 8 5v11" /><path d="M9 20v-5h6v5" />
+          </svg>
+        </span>
+        <span class="brand__name">Hotel<strong>Las Cañas</strong></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Secciones del sitio" data-i18n-aria="nav.sectionsAria">
+        <a href="#top" data-i18n="nav.inicio">Inicio</a>
+        <a href="#experiencia" data-i18n="nav.experiencia">Experiencia</a>
+        <a href="#habitaciones" data-i18n="nav.habitaciones">Habitaciones</a>
+        <a href="#galeria" data-i18n="nav.galeria">Galería</a>
+        <a href="#resenas" data-i18n="nav.resenas">Reseñas</a>
+        <a href="#ubicacion" data-i18n="nav.ubicacion">Ubicación</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button type="button" class="linkish" id="openCancel" data-i18n="nav.cancelar">Cancelar reserva</button>
+
+        <!-- Selector de idioma (ES / EN) -->
+        <div class="lang" id="lang" role="group" aria-label="Idioma / Language">
+          <button type="button" class="lang__opt" data-lang="es" lang="es" aria-pressed="true">ES</button>
+          <button type="button" class="lang__opt" data-lang="en" lang="en" aria-pressed="false">EN</button>
+        </div>
+
+        <!-- Selector de tema -->
+        <div class="theme" id="theme">
+          <button type="button" class="theme__btn" id="themeBtn" aria-haspopup="true" aria-expanded="false" aria-controls="themeMenu">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 3a9 9 0 1 0 0 18c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.4-4-8-9-8Z"/></svg>
+            <span class="theme__label" data-i18n="theme.btn">Tema</span>
+          </button>
+          <div class="theme__menu" id="themeMenu" role="menu" aria-label="Elegir tema" data-i18n-aria="theme.menuAria" hidden>
+            <p class="theme__title" data-i18n="theme.title">Tema</p>
+            <button type="button" class="theme__opt" role="menuitemradio" data-theme="esmeralda" aria-checked="true">
+              <span class="theme__swatch" aria-hidden="true"><i style="background:#153e33"></i><i style="background:#bd603f"></i><i style="background:#f6efe5"></i></span>
+              Esmeralda
+            </button>
+            <button type="button" class="theme__opt" role="menuitemradio" data-theme="costa-azul" aria-checked="false">
+              <span class="theme__swatch" aria-hidden="true"><i style="background:#16324f"></i><i style="background:#bf9638"></i><i style="background:#edf2f3"></i></span>
+              Costa Azul
+            </button>
+            <button type="button" class="theme__opt" role="menuitemradio" data-theme="carbon-oro" aria-checked="false">
+              <span class="theme__swatch" aria-hidden="true"><i style="background:#191813"></i><i style="background:#c9a96b"></i><i style="background:#ece7df"></i></span>
+              Carbón &amp; Oro
+            </button>
+            <button type="button" class="theme__opt" role="menuitemradio" data-theme="editorial-blanco" aria-checked="false">
+              <span class="theme__swatch" aria-hidden="true"><i style="background:#1a1a1a"></i><i style="background:#b0553c"></i><i style="background:#faf8f3"></i></span>
+              Editorial Blanco
+            </button>
+          </div>
+        </div>
+
+        <a class="btn btn--ghost btn--sm nav__wa" href="https://wa.me/18095565699" target="_blank" rel="noopener" data-c="wa">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.34 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm5.84 14.08c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.23-3.3-.69-2.78-1.1-4.55-3.95-4.69-4.14-.14-.18-1.13-1.5-1.13-2.86 0-1.36.71-2.03.96-2.31.25-.28.55-.35.73-.35h.52c.17 0 .4-.03.62.47.24.57.79 1.96.86 2.1.07.14.11.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.11.6-.07.17-.18.69-.8.87-1.08.18-.28.37-.23.62-.14.25.09 1.6.76 1.88.9.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg>
+          WhatsApp
+        </a>
+
+        <!-- Estado de la cuenta: se rellena por JS según la sesión -->
+        <div class="account" id="account" aria-live="polite">
+          <!-- JS inserta: botones Ingresar/Crear cuenta  ó  nombre + Salir -->
+        </div>
+
+        <!-- Menú móvil -->
+        <button type="button" class="nav__burger" id="burger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menú" data-i18n-aria="nav.burger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú desplegable en móvil -->
+    <div class="nav__mobile" id="mobileMenu" hidden>
+      <a href="#experiencia" data-i18n="nav.experiencia">Experiencia</a>
+      <a href="#habitaciones" data-i18n="nav.habitaciones">Habitaciones</a>
+      <a href="#galeria" data-i18n="nav.galeria">Galería</a>
+      <a href="#resenas" data-i18n="nav.resenas">Reseñas</a>
+      <a href="#ubicacion" data-i18n="nav.ubicacion">Ubicación</a>
+      <a href="https://wa.me/18095565699" target="_blank" rel="noopener" data-c="wa">WhatsApp</a>
+      <button type="button" class="linkish" id="openCancelMobile" data-i18n="nav.cancelar">Cancelar reserva</button>
+      <div class="account account--mobile" id="accountMobile"></div>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ===== Hero cinematográfico a sangre completa ===== -->
+    <section class="hero" id="inicio" aria-labelledby="heroTitle">
+      <div class="hero__media">
+        <img class="hero__img" src="assets/hero.jpg" alt="Piscina del Hotel Las Cañas rodeada de palmeras" />
+        <div class="hero__scrim" aria-hidden="true"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__eyebrow reveal" data-i18n="hero.eyebrow">La Romana · República Dominicana</p>
+        <h1 id="heroTitle" class="hero__title reveal" data-i18n-html="hero.title">Tu descanso<br /><em>en La Romana</em></h1>
+        <p class="hero__lede reveal" data-i18n="hero.lede">
+          Un hotel acogedor junto a Playa Las Cañas, para descansar
+          con calma en la costa sureste.
+        </p>
+      </div>
+      <a class="hero__scroll" href="#experiencia" aria-label="Desplázate para ver más" data-i18n-aria="hero.scrollAria">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </a>
+    </section>
+
+    <!-- ===== Barra de reserva flotante (superpuesta al hero) ===== -->
+    <div class="bookingwrap">
+      <section class="bookingbar" id="reservar" aria-labelledby="bookingTitle">
+        <h2 id="bookingTitle" class="sr-only" data-i18n="booking.srTitle">Buscar disponibilidad</h2>
+        <form class="booking__card" id="reservaForm" novalidate>
+          <p class="booking__cardtitle" data-i18n="booking.cardtitle">Reserva tu estadía</p>
+          <div class="booking__grid">
+            <div class="field field--date">
+              <label for="llegada" data-i18n="booking.llegada">Llegada</label>
+              <input type="date" id="llegada" name="llegada" required autocomplete="off" />
+            </div>
+            <div class="field field--date">
+              <label for="salida" data-i18n="booking.salida">Salida</label>
+              <input type="date" id="salida" name="salida" required autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="huespedes" data-i18n="booking.huespedes">Huéspedes</label>
+              <select id="huespedes" name="huespedes">
+                <option value="1 adulto · 1 habitación" data-i18n="booking.g1">1 adulto · 1 habitación</option>
+                <option value="2 adultos · 1 habitación" selected data-i18n="booking.g2">2 adultos · 1 habitación</option>
+                <option value="3 adultos · 1 habitación" data-i18n="booking.g3">3 adultos · 1 habitación</option>
+                <option value="4 adultos · 2 habitaciones" data-i18n="booking.g4">4 adultos · 2 habitaciones</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--solid booking__go" id="verDisponibilidad">
+              <span data-i18n="booking.go">Reservar</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+          <p class="booking__summary" id="fechasResumen" aria-live="polite" hidden>
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+            <span id="fechasResumenText"></span>
+          </p>
+          <p class="booking__hint" id="bookingHint" role="status"></p>
+        </form>
+      </section>
+    </div>
+
+    <!-- ===== Intro / experiencia + datos ===== -->
+    <section class="section intro" id="experiencia" aria-labelledby="introTitle">
+      <div class="shell intro__grid">
+        <div class="intro__text reveal">
+          <p class="eyebrow" data-i18n="intro.eyebrow">La experiencia</p>
+          <h2 id="introTitle" data-i18n="intro.title">Una pausa serena en la costa sureste.</h2>
+          <p class="lede" data-i18n="intro.lede">
+            Habitaciones cuidadas, piscina al aire libre y la calma de La Romana
+            para descansar de verdad, lejos del ruido.
+          </p>
+        </div>
+        <ul class="intro__stats reveal">
+          <li><span class="intro__stat" data-i18n="intro.stat1">La Romana</span><span class="intro__lbl" data-i18n="intro.lbl1">costa sureste de RD</span></li>
+          <li><span class="intro__stat" data-i18n="intro.stat2">Playa Las Cañas</span><span class="intro__lbl" data-i18n="intro.lbl2">cerca del hotel</span></li>
+          <li><span class="intro__stat" data-i18n="intro.stat3">Piscina</span><span class="intro__lbl" data-i18n="intro.lbl3">al aire libre</span></li>
+          <li><span class="intro__stat" data-i18n="intro.stat4">3 tipos</span><span class="intro__lbl" data-i18n="intro.lbl4">Sencilla · Doble · Aparta Hotel</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Amenidades con iconos ===== -->
+    <section class="section amenities" aria-labelledby="amTitle">
+      <div class="shell">
+        <div class="section__head reveal">
+          <p class="eyebrow" data-i18n="am.eyebrow">Comodidades</p>
+          <h2 id="amTitle" data-i18n="am.title">Pensado para tu descanso.</h2>
+        </div>
+        <ul class="amenities__grid reveal">
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M2 9a15 15 0 0 1 20 0M8 16a5 5 0 0 1 8 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg></span>
+            <span class="amenity__name" data-i18n="am.wifi">Wi-Fi</span>
+          </li>
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18c1.5 0 1.5 1.3 3 1.3S8.5 18 10 18s1.5 1.3 3 1.3S15.5 18 17 18s1.5 1.3 3 1.3 1.5-1.3 2-1.3M6 14V5a2 2 0 0 1 4 0v9M6 9h4M14 14V7a2 2 0 0 1 4 0v7"/></svg></span>
+            <span class="amenity__name" data-i18n="am.piscina">Piscina</span>
+          </li>
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v8a2 2 0 0 0 4 0V3M8 3v18M17 3c-1.7 0-3 2-3 5s1 4 2.5 4H17v9"/></svg></span>
+            <span class="amenity__name" data-i18n="am.restaurante">Restaurante</span>
+          </li>
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4.2 7l15.6 10M19.8 7 4.2 17M12 5l-3 2 3 2 3-2zM12 19l-3-2 3-2 3 2zM4.2 7l.3 3.5 3.5-.7M19.8 17l-.3-3.5-3.5.7"/></svg></span>
+            <span class="amenity__name" data-i18n="am.aire">Aire acondicionado</span>
+          </li>
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+            <span class="amenity__name" data-i18n="am.tv">Smart TV</span>
+          </li>
+          <li class="amenity">
+            <span class="amenity__ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s5 5.2 5 9a5 5 0 0 1-10 0c0-3.8 5-9 5-9Z"/><path d="M12 17a3 3 0 0 1-2-2.5"/></svg></span>
+            <span class="amenity__name" data-i18n="am.agua">Agua caliente</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Catálogo de habitaciones (/api/catalogo) ===== -->
+    <section class="section rooms" aria-labelledby="roomsTitle">
+      <div class="shell">
+        <div class="section__head reveal">
+          <p class="eyebrow" data-i18n="rooms.eyebrow">Habitaciones</p>
+          <h2 id="roomsTitle" data-i18n="rooms.title">Elige tu habitación.</h2>
+          <p class="lede" data-i18n="rooms.lede">Espacios cuidados para una estadía tranquila, con todo lo esencial.</p>
+        </div>
+        <div class="rooms__grid" id="habitaciones">
+          <p class="stay__loading" id="catalogoMsg" data-i18n="rooms.loading">Cargando habitaciones…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Experiencia editorial: piscina y restaurante ===== -->
+    <section class="section features" aria-labelledby="featuresTitle">
+      <h2 id="featuresTitle" class="sr-only" data-i18n="feat.srTitle">Piscina y restaurante</h2>
+      <div class="shell features__stack">
+        <article class="feature reveal">
+          <figure class="feature__media"><img src="assets/piscina-grande.jpg" alt="Piscina grande del Hotel Las Cañas rodeada de palmeras" data-i18n-alt="feat.p.alt" loading="lazy" /></figure>
+          <div class="feature__text">
+            <p class="eyebrow" data-i18n="feat.p.eyebrow">Al aire libre</p>
+            <h3 data-i18n="feat.p.title">Piscina</h3>
+            <p data-i18n="feat.p.text">Un espacio tranquilo para refrescarte y soltar el viaje bajo el sol del Caribe.</p>
+          </div>
+        </article>
+        <article class="feature feature--reverse reveal">
+          <figure class="feature__media"><img src="assets/restaurante.jpg" alt="Mesa servida en el restaurante (imagen de muestra)" data-i18n-alt="feat.r.alt" loading="lazy" /></figure>
+          <div class="feature__text">
+            <p class="eyebrow" data-i18n="feat.r.eyebrow">Para comenzar el día</p>
+            <h3 data-i18n="feat.r.title">Restaurante</h3>
+            <p data-i18n="feat.r.text">Desayuna sin prisa o disfruta de un plato tranquilo durante tu estadía.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Galería ===== -->
+    <section class="section gallery" id="galeria" aria-labelledby="galTitle">
+      <div class="shell">
+        <div class="section__head reveal">
+          <p class="eyebrow" data-i18n="gal.eyebrow">Galería</p>
+          <h2 id="galTitle" data-i18n="gal.title">Un vistazo al hotel.</h2>
+        </div>
+        <div class="gallery__grid reveal" id="galeria-grid">
+          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/recepcion.jpg" alt="Recepción y lobby del hotel" data-i18n-alt="gal.recepcion" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--wide tilt3d"><img src="assets/hero.jpg" alt="Piscina principal del hotel rodeada de palmeras" data-i18n-alt="gal.piscinaMain" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/piscina.jpg" alt="Piscina con jacuzzi del hotel" data-i18n-alt="gal.jacuzzi" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/restaurante.jpg" alt="Restaurante y terraza del hotel" data-i18n-alt="gal.restaurante" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/aparta-hotel.jpg" alt="Sala del Aparta Hotel" data-i18n-alt="gal.aparta" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-sencilla.jpg" alt="Habitación sencilla" data-i18n-alt="gal.sencilla" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-doble.jpg" alt="Habitación doble" data-i18n-alt="gal.doble" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--wide tilt3d"><img src="assets/ubicacion.jpg" alt="Fachada y exterior del hotel" data-i18n-alt="gal.fachada" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/bano.jpg" alt="Baño de la habitación" data-i18n-alt="gal.bano" loading="lazy" /></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ubicación ===== -->
+    <section class="section place" id="ubicacion" aria-labelledby="placeTitle">
+      <div class="shell place__grid">
+        <div class="place__text reveal">
+          <p class="eyebrow" data-i18n="place.eyebrow">Dónde estamos</p>
+          <h2 id="placeTitle" data-i18n="place.title">La Romana.</h2>
+          <p class="lede" data-i18n="place.lede">
+            En la costa sureste de la República Dominicana, cerca de Playa Las Cañas.
+            Ideal para unos días de descanso con el mar a la mano.
+          </p>
+          <p class="place__addr" data-c-text="addr">Calle Caonabo #1, Km 3½, carretera La Romana–San Pedro, La Romana, Rep. Dom.</p>
+          <div class="place__cta">
+            <a class="btn btn--solid" href="https://www.google.com/maps/search/Hotel+Las+Ca%C3%B1as+Calle+Caonabo+La+Romana" target="_blank" rel="noopener">
+              <span data-i18n="place.map">Ver en el mapa</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="tel:8095565699" data-c="tel">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+              <span data-c-text="tel">809-556-5699</span>
+            </a>
+          </div>
+        </div>
+        <figure class="place__photo reveal">
+          <img src="assets/ubicacion.jpg" alt="Fachada y exterior del Hotel Las Cañas" loading="lazy" />
+        </figure>
+      </div>
+
+      <div class="shell nearby reveal">
+        <p class="eyebrow" data-i18n="nearby.eyebrow">Cerca del hotel</p>
+        <h3 class="nearby__title" data-i18n="nearby.title">Qué visitar en La Romana y alrededores</h3>
+        <div class="nearby__grid">
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/altos-chavon.jpg" alt="Altos de Chavón, aldea mediterránea de piedra sobre el río Chavón" data-i18n-alt="nearby.img1" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Altos de Chavón</h4>
+              <p data-i18n="nearby.c1">Aldea mediterránea de piedra con talleres de arte, un anfiteatro y vistas al río Chavón.</p>
+              <a href="https://www.google.com/maps/search/Altos+de+Chav%C3%B3n+La+Romana" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/cueva-maravillas.jpg" alt="Cueva de las Maravillas con arte rupestre taíno y estalactitas" data-i18n-alt="nearby.img2" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Cueva de las Maravillas</h4>
+              <p data-i18n="nearby.c2">Arte rupestre taíno y formaciones de estalactitas, sobre la misma carretera hacia San Pedro.</p>
+              <a href="https://www.google.com/maps/search/Cueva+de+las+Maravillas" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/isla-catalina.jpg" alt="Isla Catalina, playa de arena blanca y arrecifes de coral" data-i18n-alt="nearby.img3" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Isla Catalina</h4>
+              <p data-i18n="nearby.c3">Playas de arena blanca y arrecifes de coral para bucear y hacer snorkel, frente a la costa.</p>
+              <a href="https://www.google.com/maps/search/Isla+Catalina+La+Romana" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/isla-saona.jpg" alt="Bayahíbe e Isla Saona, playas paradisíacas del Caribe" data-i18n-alt="nearby.img4" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Bayahíbe e Isla Saona</h4>
+              <p data-i18n="nearby.c4">Pueblo de pescadores y punto de salida en catamarán hacia la paradisíaca Isla Saona.</p>
+              <a href="https://www.google.com/maps/search/Bayah%C3%ADbe" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/marina-casa-de-campo.jpg" alt="Marina Casa de Campo con yates y restaurantes de lujo" data-i18n-alt="nearby.img5" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Marina Casa de Campo</h4>
+              <p data-i18n="nearby.c5">Puerto de lujo con restaurantes, boutiques y yates, a pocos minutos del hotel.</p>
+              <a href="https://www.google.com/maps/search/Marina+Casa+de+Campo+La+Romana" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+          <article class="nearby__card tilt3d">
+            <img class="nearby__img" src="assets/sitios/playa-las-canas.jpg" alt="Playa Las Cañas, mar y arena cerca del hotel" data-i18n-alt="nearby.img6" loading="lazy" />
+            <div class="nearby__body">
+              <h4>Playa Las Cañas</h4>
+              <p data-i18n="nearby.c6">Mar y arena a pocos minutos, perfectos para un día de descanso junto al Caribe.</p>
+              <a href="https://www.google.com/maps/search/Playa+Las+Ca%C3%B1as+La+Romana" target="_blank" rel="noopener" data-i18n="nearby.map">Ver en el mapa →</a>
+            </div>
+          </article>
+        </div>
+        <p class="nearby__note" data-i18n="nearby.note">Distancias y tiempos son aproximados; conviene confirmarlos antes de salir.</p>
+      </div>
+    </section>
+
+    <!-- ===== Reseñas de huéspedes (GET/POST /api/resenas) ===== -->
+    <section class="section reviews" id="resenas" aria-labelledby="reviewsTitle">
+      <div class="shell">
+        <div class="section__head reveal">
+          <p class="eyebrow" data-i18n="rev.eyebrow">Reseñas</p>
+          <h2 id="reviewsTitle" data-i18n="rev.title">Reseñas de huéspedes</h2>
+          <p class="lede" data-i18n="rev.lede">Lo que cuentan quienes ya se hospedaron con nosotros.</p>
+        </div>
+        <div class="reviews__list" id="reviewsList" aria-live="polite">
+          <p class="reviews__loading" data-i18n="rev.loading">Cargando reseñas…</p>
+        </div>
+        <!-- JS inserta el formulario (con sesión) o el aviso de inicio de sesión -->
+        <div class="reviews__formwrap" id="reviewsFormWrap"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Pie ===== -->
+  <footer class="foot">
+    <div class="foot__inner">
+      <div class="foot__brand">
+        <span class="brand__name">Hotel<strong>Las Cañas</strong></span>
+        <p class="foot__motto" data-i18n="foot.motto">Tu descanso en La Romana.</p>
+        <nav class="foot__social" aria-label="Redes sociales" data-i18n-aria="foot.socialAria">
+          <a href="https://instagram.com/hotel_lascanas" target="_blank" rel="noopener" aria-label="Instagram de Hotel Las Cañas" data-c="ig">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://facebook.com/hotelycabanaslascanas" target="_blank" rel="noopener" aria-label="Facebook de Hotel Las Cañas" data-c="fb">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-3.5 1.4-3.5 3.6V11H8v3h2.5v7h3v-7H16l.5-3h-2.5V9.8c0-.6.3-.8.9-.8Z"/></svg>
+          </a>
+        </nav>
+      </div>
+      <div class="foot__col">
+        <h4 data-i18n="foot.contacto">Contacto</h4>
+        <p><a href="tel:8095565699" data-c="tel"><span data-c-text="tel">809-556-5699</span></a></p>
+        <p><a href="https://wa.me/18095565699" target="_blank" rel="noopener" data-c="wa">WhatsApp</a></p>
+        <p><a href="mailto:helpdesk@hlascanas.com" data-c="mail"><span data-c-text="mail">helpdesk@hlascanas.com</span></a></p>
+      </div>
+      <div class="foot__col">
+        <h4 data-i18n="foot.ubicacion">Ubicación</h4>
+        <p data-c-text="addr">Calle Caonabo #1, Km 3½, carretera La Romana–San Pedro, La Romana, Rep. Dom.</p>
+      </div>
+    </div>
+    <div class="foot__bar">
+      <p>© <span id="year"></span> <span data-i18n="foot.copy">Hotel y Cabañas Las Cañas · La Romana, República Dominicana</span></p>
+      <nav class="foot__legal" aria-label="Documentos legales" data-i18n-aria="foot.legalAria">
+        <a href="privacidad.html" data-i18n="foot.priv">Privacidad</a>
+        <a href="cookies.html" data-i18n="foot.cookies">Cookies</a>
+        <a href="terminos.html" data-i18n="foot.terms">Términos</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ===== Modal: autenticación (Ingresar / Crear cuenta) ===== -->
+  <div class="modal" id="modalAuth" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="modal__x" type="button" data-close aria-label="Cerrar" data-i18n-aria="modal.close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 id="authTitle" class="modal__title" data-i18n="auth.title">Ingresar</h2>
+      <p class="modal__sub" data-i18n="auth.sub">Entra con tu cuenta para continuar. ¿Primera vez? Crea tu cuenta al reservar.</p>
+
+      <form class="mform" id="panelLogin" novalidate>
+        <div class="field">
+          <label for="loginEmail" data-i18n="field.email">Correo</label>
+          <input type="email" id="loginEmail" autocomplete="email" required placeholder="tu@correo.com" data-i18n-ph="ph.email" />
+          <small class="field__err" id="loginEmailErr"></small>
+        </div>
+        <div class="field">
+          <label for="loginPass" data-i18n="field.pass">Contraseña</label>
+          <input type="password" id="loginPass" autocomplete="current-password" required minlength="6" placeholder="Tu contraseña" data-i18n-ph="ph.pass" />
+          <small class="field__err" id="loginPassErr"></small>
+        </div>
+        <button class="btn btn--solid modal__submit" type="submit" id="btnLogin" data-i18n="auth.submit">Ingresar</button>
+        <p class="modal__msg" id="loginMsg" role="alert"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Modal: reserva en 3 pasos (1 cuenta · 2 habitación · 3 pago) ===== -->
+  <div class="modal" id="modalReserva" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="reservaTitle">
+      <button class="modal__x" type="button" data-close aria-label="Cerrar" data-i18n-aria="modal.close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 id="reservaTitle" class="modal__title" data-i18n="resv.title">Reservar</h2>
+      <p class="modal__sub" id="reservaResumen"></p>
+
+      <!-- Indicador de pasos -->
+      <ol class="steps" id="steps" aria-label="Pasos de la reserva" data-i18n-aria="resv.stepsAria">
+        <li class="steps__item is-current" id="stepDot1" data-i18n="resv.step1">Cuenta</li>
+        <li class="steps__item" id="stepDot2" data-i18n="resv.step2">Habitación</li>
+        <li class="steps__item" id="stepDot3" data-i18n="resv.step3">Pago</li>
+      </ol>
+
+      <!-- PASO 1: cuenta (registro o inicio de sesión) -->
+      <div class="step" id="paso1">
+        <!-- Crear cuenta -->
+        <form class="mform" id="regForm" novalidate>
+          <p class="step__hint" data-i18n="resv.regHint">Crea tu cuenta para continuar con la reserva.</p>
+          <div class="field">
+            <label for="rvNombre" data-i18n="field.nombre">Nombre completo</label>
+            <input type="text" id="rvNombre" autocomplete="name" maxlength="30" placeholder="Tu nombre" data-i18n-ph="ph.nombre" />
+            <small class="field__err" id="rvNombreErr"></small>
+          </div>
+          <div class="field">
+            <label for="rvEmail" data-i18n="field.email">Correo</label>
+            <input type="email" id="rvEmail" autocomplete="email" placeholder="tu@correo.com" data-i18n-ph="ph.email" />
+            <small class="field__err" id="rvEmailErr"></small>
+          </div>
+          <div class="field">
+            <label for="rvTel" data-i18n="field.tel">Teléfono</label>
+            <input type="tel" id="rvTel" autocomplete="tel" maxlength="12" placeholder="809-000-0000" data-i18n-ph="ph.tel" />
+            <small class="field__err" id="rvTelErr"></small>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="rvCedula"><span data-i18n="field.cedula">Cédula</span> <span class="field__opt" data-i18n="field.opcional">(opcional)</span></label>
+              <input type="text" id="rvCedula" autocomplete="off" maxlength="16" placeholder="000-0000000-0" data-i18n-ph="ph.cedula" />
+            </div>
+            <div class="field">
+              <label for="rvPass" data-i18n="field.pass">Contraseña</label>
+              <input type="password" id="rvPass" autocomplete="new-password" minlength="6" placeholder="Mínimo 6 caracteres" data-i18n-ph="ph.pass6" />
+              <small class="field__err" id="rvPassErr"></small>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rvDireccion"><span data-i18n="field.direccion">Dirección</span> <span class="field__opt" data-i18n="field.opcional">(opcional)</span></label>
+            <input type="text" id="rvDireccion" autocomplete="street-address" maxlength="60" placeholder="Tu dirección" data-i18n-ph="ph.direccion" />
+          </div>
+          <label class="optin" for="rvPromos">
+            <input type="checkbox" id="rvPromos" />
+            <span class="optin__text" data-i18n="resv.promos">Quiero recibir ofertas y promociones por correo</span>
+          </label>
+          <button class="btn btn--solid modal__submit" type="submit" id="btnRegistro" data-i18n="resv.btnReg">Crear cuenta y continuar</button>
+          <p class="modal__msg" id="regMsg" role="alert"></p>
+          <p class="step__alt"><span data-i18n="resv.yaCuenta">¿Ya tienes cuenta?</span> <button type="button" class="linkish" id="irLogin" data-i18n="resv.iniciaSesion">Inicia sesión</button></p>
+        </form>
+
+        <!-- Iniciar sesión -->
+        <form class="mform" id="loginPaso1" novalidate hidden>
+          <p class="step__hint" data-i18n="resv.loginHint">Inicia sesión para continuar con la reserva.</p>
+          <div class="field">
+            <label for="lpEmail" data-i18n="field.email">Correo</label>
+            <input type="email" id="lpEmail" autocomplete="email" placeholder="tu@correo.com" data-i18n-ph="ph.email" />
+            <small class="field__err" id="lpEmailErr"></small>
+          </div>
+          <div class="field">
+            <label for="lpPass" data-i18n="field.pass">Contraseña</label>
+            <input type="password" id="lpPass" autocomplete="current-password" minlength="6" placeholder="Tu contraseña" data-i18n-ph="ph.pass" />
+            <small class="field__err" id="lpPassErr"></small>
+          </div>
+          <button class="btn btn--solid modal__submit" type="submit" id="btnLoginPaso1" data-i18n="resv.btnLoginP1">Iniciar sesión y continuar</button>
+          <p class="modal__msg" id="lpMsg" role="alert"></p>
+          <p class="step__alt"><span data-i18n="resv.primeraVez">¿Primera vez?</span> <button type="button" class="linkish" id="irReg" data-i18n="resv.creaCuenta">Crea tu cuenta</button></p>
+        </form>
+      </div>
+
+      <!-- PASO 2: tipo de habitación + total -->
+      <div class="step" id="paso2" hidden>
+        <!-- Titular (de la cuenta, solo lectura) -->
+        <div class="holder" id="holder" hidden>
+          <span class="holder__label" data-i18n="resv.aNombre">A nombre de</span>
+          <span class="holder__name" id="holderName"></span>
+          <span class="holder__tel" id="holderTel"></span>
+        </div>
+
+        <form class="mform" id="reservaDetalle" novalidate>
+          <fieldset class="tipos" id="tipos">
+            <legend class="step__hint" data-i18n="resv.elegirTipo">Elige el tipo de habitación</legend>
+            <!-- JS rellena las opciones desde /api/tarifas -->
+          </fieldset>
+          <p class="disp-nota" id="tipoNota" role="status"></p>
+          <div class="field">
+            <label for="observacion"><span data-i18n="field.comentario">Comentario</span> <span class="field__opt" data-i18n="field.opcional">(opcional)</span></label>
+            <textarea id="observacion" rows="2" maxlength="200" placeholder="Hora de llegada, preferencias…" data-i18n-ph="ph.comentario"></textarea>
+          </div>
+          <div class="total" id="totalPaso2" hidden>
+            <span class="total__label"><span data-i18n="resv.total">Total</span> <span id="totalPaso2Noches"></span></span>
+            <strong class="total__val" id="totalPaso2Val"></strong>
+          </div>
+          <button class="btn btn--solid modal__submit" type="submit" id="irPago">Continuar al pago</button>
+          <p class="modal__msg" id="reservaMsg" role="alert"></p>
+        </form>
+      </div>
+
+      <!-- PASO 3: pago (simulado) -->
+      <div class="step" id="paso3" hidden>
+        <div class="paytotal">
+          <span class="paytotal__label" data-i18n="pay.total">Total a pagar</span>
+          <strong class="paytotal__val" id="pagoTotal"></strong>
+        </div>
+        <p class="paynote">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span data-i18n="pay.note">Pago en modo prueba — no se realiza un cobro real.</span>
+        </p>
+        <p class="paymethods" id="payMethods"></p>
+        <form class="mform" id="pagoForm" novalidate autocomplete="off">
+          <div class="field">
+            <label for="pgTitular" data-i18n="pay.titular">Titular de la tarjeta</label>
+            <input type="text" id="pgTitular" autocomplete="cc-name" maxlength="40" placeholder="Nombre en la tarjeta" data-i18n-ph="ph.ccName" />
+            <small class="field__err" id="pgTitularErr"></small>
+          </div>
+          <div class="field">
+            <label for="pgNumero" data-i18n="pay.numero">Número de tarjeta</label>
+            <div class="cardinput">
+              <input type="text" id="pgNumero" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="1234 5678 9012 3456" />
+              <span class="cardbrand" id="cardBrand" aria-hidden="true"></span>
+            </div>
+            <small class="field__err" id="pgNumeroErr"></small>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="pgVenc" data-i18n="pay.venc">Vencimiento</label>
+              <input type="text" id="pgVenc" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/AA" data-i18n-ph="ph.ccExp" />
+              <small class="field__err" id="pgVencErr"></small>
+            </div>
+            <div class="field">
+              <label for="pgCvv" data-i18n="pay.cvv">CVV</label>
+              <input type="text" id="pgCvv" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123" />
+              <small class="field__err" id="pgCvvErr"></small>
+            </div>
+          </div>
+          <button class="btn btn--solid modal__submit" type="submit" id="pagar" data-i18n="pay.submit">Pagar y confirmar</button>
+          <button class="linkish login-inline__back" type="button" id="volverPaso2" data-i18n="pay.volver">Volver</button>
+          <p class="modal__msg" id="pagoMsg" role="alert"></p>
+        </form>
+      </div>
+
+      <!-- Éxito: número de reserva destacado -->
+      <div class="success" id="reservaOk" hidden>
+        <div class="success__badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <p class="success__lead" data-i18n="ok.leadPaid">¡Reserva confirmada y pagada!</p>
+        <p class="success__num"><span data-i18n="ok.num">Reserva N.º</span> <strong id="okNumero"></strong></p>
+        <p class="success__note" id="okDetalle"></p>
+        <p class="success__pay" id="okPago"></p>
+        <p class="success__keep" data-i18n="ok.keep">Guarda tu número para cancelar si lo necesitas.</p>
+        <button class="btn btn--ghost" type="button" id="okCerrar" data-i18n="ok.done">Listo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Modal: cancelación ===== -->
+  <div class="modal" id="modalCancel" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="cancelTitle">
+      <button class="modal__x" type="button" data-close aria-label="Cerrar" data-i18n-aria="modal.close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 id="cancelTitle" class="modal__title" data-i18n="cancel.title">Cancelar reserva</h2>
+      <p class="modal__sub" data-i18n="cancel.sub">Escribe tu número de reserva y el teléfono con el que reservaste.</p>
+      <form class="mform" id="cancelForm" novalidate>
+        <div class="field">
+          <label for="cNumero" data-i18n="cancel.numero">Número de reserva</label>
+          <input type="number" id="cNumero" inputmode="numeric" required placeholder="Ej. 92552" data-i18n-ph="ph.numEj" />
+          <small class="field__err" id="cNumeroErr"></small>
+        </div>
+        <div class="field">
+          <label for="cTelefono" data-i18n="field.tel">Teléfono</label>
+          <input type="tel" id="cTelefono" maxlength="12" required placeholder="809-000-0000" data-i18n-ph="ph.tel" />
+          <small class="field__err" id="cTelefonoErr"></small>
+        </div>
+        <button class="btn btn--solid modal__submit" type="submit" id="confirmarCancel" data-i18n="cancel.submit">Cancelar mi reserva</button>
+        <p class="modal__msg" id="cancelMsg" role="alert"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Modal: Mis reservas (cliente con sesión) ===== -->
+  <div class="modal" id="modalMisReservas" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box modal__box--wide" role="dialog" aria-modal="true" aria-labelledby="misResvTitle">
+      <button class="modal__x" type="button" data-close aria-label="Cerrar" data-i18n-aria="modal.close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 id="misResvTitle" class="modal__title" data-i18n="mis.title">Mis reservas</h2>
+      <p class="modal__sub" data-i18n="mis.sub">Consulta, cancela o cambia las fechas de tus reservas.</p>
+      <div class="misresv" id="misResvLista" aria-live="polite">
+        <p class="misresv__loading" data-i18n="mis.loading">Cargando tus reservas…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Lightbox de galería (reusa el gestor de modales) ===== -->
+  <div class="modal lightbox" id="lightbox" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box lightbox__box" role="dialog" aria-modal="true" aria-label="Imagen ampliada" data-i18n-aria="lb.aria">
+      <button class="modal__x lightbox__x" type="button" data-close aria-label="Cerrar" data-i18n-aria="modal.close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <img class="lightbox__img" id="lightboxImg" alt="" />
+    </div>
+  </div>
+
+  <!-- Botón flotante "volver arriba" (lo muestra/oculta app.js al desplazar) -->
+  <button type="button" class="to-top" id="toTop" aria-label="Volver arriba" data-i18n-aria="toTop.aria" hidden>
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+
+  <script src="app.js"></script>
+  <script src="tilt3d.js" defer></script>
+</body>
+</html>
