@@ -1069,11 +1069,12 @@ function renderCatalogo() {
   }
   cont.innerHTML = '';
   catalogoData.forEach((h) => cont.appendChild(tarjetaCatalogo(h)));
+  if (window.Tilt3D) window.Tilt3D.scan(); // enlaza el efecto 3D a las tarjetas nuevas
 }
 
 function tarjetaCatalogo(h) {
   const art = document.createElement('article');
-  art.className = 'card reveal in';
+  art.className = 'card reveal in tilt3d';
   const precio = esPagoActivo() ? precioDeTipo(h.tipo) : null;
   art.innerHTML =
     `<img class="card__photo" src="${escapar(h.foto)}" alt="${escapar(h.nombre)} ${escapar(t('card.sample'))}" loading="lazy">` +

@@ -24,6 +24,8 @@
   var SCALE = 1.03;    // leve acercamiento
 
   function activar(el) {
+    if (el.__tilt3dOn) return; // evita doble enlace al reescanear
+    el.__tilt3dOn = true;
     var rafId = null;
     var pend = null; // { x, y } relativos al elemento
 
@@ -71,6 +73,10 @@
     var els = document.querySelectorAll('.tilt3d');
     for (var i = 0; i < els.length; i++) activar(els[i]);
   }
+
+  // Expuesto para reenlazar elementos añadidos dinámicamente (p. ej. el
+  // catálogo de habitaciones, que se renderiza tras un fetch).
+  window.Tilt3D = { scan: iniciar };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', iniciar);

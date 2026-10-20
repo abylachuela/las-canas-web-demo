@@ -913,7 +913,7 @@ img, svg { display: block; max-width: 100%; }
    Perspectiva en los contenedores; la transformación la pone tilt3d.js por
    elemento (inline). Todo compatible con CSP estricta (sin JS inline aquí).
    ========================================================================= */
-.nearby__grid, .gallery__grid { perspective: 900px; }
+.nearby__grid, .gallery__grid, .rooms__grid { perspective: 900px; }
 .tilt3d {
   transform-style: preserve-3d;
   transition: transform .15s ease-out, box-shadow .15s ease-out;
