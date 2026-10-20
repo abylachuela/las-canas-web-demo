@@ -1046,11 +1046,15 @@ async function cargarCatalogo() {
   pintarSkeletonCatalogo(3);
   try {
     const { data } = await pedir('/api/catalogo');
-    if (!data || !data.ok) { catalogoData = null; renderCatalogo(); return; }
-    catalogoData = data.habitaciones || [];
-    renderCatalogo();
+    if (data && data.ok) { catalogoData = data.habitaciones || []; renderCatalogo(); return; }
+    throw new Error('sin backend');
   } catch {
-    catalogoData = null; renderCatalogo();
+    // Demo estático (sin backend): usa el catálogo horneado en catalogo.json.
+    try {
+      const r = await fetch('catalogo.json', { cache: 'no-cache' });
+      catalogoData = r.ok ? await r.json() : null;
+    } catch { catalogoData = null; }
+    renderCatalogo();
   }
 }
 
