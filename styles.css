@@ -233,6 +233,12 @@ img, svg { display: block; max-width: 100%; }
 }
 .brand__name { font-family: var(--font-head); font-size: 1.14rem; color: var(--ink); letter-spacing: -0.01em; }
 .brand__name strong { color: var(--brand); font-weight: 600; }
+/* Logo (imagen) de la marca: versión clara por defecto, dorada en el tema oscuro. */
+.brand__logo { height: 46px; width: auto; display: block; }
+.brand__logo--oscuro { display: none; }
+:root[data-theme="carbon-oro"] .brand__logo--claro { display: none; }
+:root[data-theme="carbon-oro"] .brand__logo--oscuro { display: block; }
+.foot__brand .brand__logo { height: 62px; }
 
 .nav__links { display: flex; gap: 1.4rem; margin-left: .5rem; font-size: .9rem; color: var(--muted); }
 .nav__links a { position: relative; padding: .2rem 0; }
