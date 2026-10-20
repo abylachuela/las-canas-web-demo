@@ -543,7 +543,7 @@ img, svg { display: block; max-width: 100%; }
 .foot__col p { margin-bottom: .35rem; font-size: .92rem; color: var(--muted); }
 .foot__col a:hover { color: var(--brand); }
 .foot__bar { border-top: 1px solid var(--line); }
-.foot__bar p { max-width: var(--maxw); margin: 0 auto; padding: 1rem var(--gutter); font-size: .82rem; color: var(--muted); }
+.foot__bar p { max-width: var(--maxw); margin: 0 auto; padding: 1rem var(--gutter); font-size: .82rem; color: var(--muted); text-align: center; }
 
 /* =========================== Modales =========================== */
 .modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 1rem; }
