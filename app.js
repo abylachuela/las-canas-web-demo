@@ -89,7 +89,7 @@ const I18N = {
     /* Hero */
     'hero.eyebrow': 'La Romana · República Dominicana',
     'hero.title': 'Tu descanso<br /><em>en La Romana</em>',
-    'hero.lede': 'Un hotel acogedor junto a Playa Las Cañas, para descansar con calma en la costa sureste.',
+    'hero.lede': 'Nos sentimos en familia',
     'hero.scrollAria': 'Desplázate para ver más',
     /* Buscador de reserva */
     'booking.srTitle': 'Buscar disponibilidad',
@@ -362,7 +362,7 @@ const I18N = {
     /* Hero */
     'hero.eyebrow': 'La Romana · Dominican Republic',
     'hero.title': 'Your getaway<br /><em>in La Romana</em>',
-    'hero.lede': 'A welcoming hotel next to Playa Las Cañas, for a calm, restful stay on the southeast coast.',
+    'hero.lede': 'We feel like family',
     'hero.scrollAria': 'Scroll to see more',
     /* Booking search */
     'booking.srTitle': 'Check availability',
