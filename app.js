@@ -1998,3 +1998,36 @@ cargarSesion();   // y lo corrige cuando responde /api/yo
 // Config del sitio (pago, tarifas, contacto, tema) y luego el catálogo público.
 cargarConfig().then(cargarCatalogo);
 cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta según sesión)
+
+/* ===== Prueba de conexión a la BD vía túnel =====
+   Se activa SOLO si se abre el demo con ?api=<URL-del-túnel>, p. ej.:
+   https://abylachuela.github.io/las-canas-web-demo/?api=https://xxxx.trycloudflare.com
+   Llama a <URL>/api/salud (CORS abierto) y reporta el estado de la base de datos. */
+(function () {
+  try {
+    var api = new URLSearchParams(location.search).get('api');
+    if (!api) return;
+    api = api.trim().replace(/\/+$/, '');
+    if (!/^https?:\/\//.test(api)) return;
+    var b = document.createElement('div');
+    b.setAttribute('role', 'status');
+    b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;padding:11px 16px;font:600 14px/1.45 Inter,system-ui,sans-serif;text-align:center;color:#fff;background:#6b6b6b';
+    b.textContent = 'Probando conexión a la base de datos por el túnel…';
+    var add = function () { (document.body || document.documentElement).appendChild(b); };
+    if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
+    var set = function (bg, txt) { b.style.background = bg; b.textContent = txt; };
+    fetch(api + '/api/salud', { cache: 'no-store' })
+      .then(function (r) {
+        if (r.ok) {
+          return r.json().then(function (d) {
+            if (d && d.ok) set('#153e33', '✅ Base de datos conectada remotamente por el túnel.');
+            else set('#9a6b00', '⚠️ Se alcanzó el servidor, pero la base de datos no respondió.');
+          });
+        }
+        set('#9a6b00', '⚠️ Se alcanzó el servidor por el túnel, pero la base de datos no respondió (HTTP ' + r.status + ').');
+      })
+      .catch(function () {
+        set('#8a1f1f', '❌ No se pudo alcanzar el túnel (' + api + '). ¿cloudflared y la app en :8099 están corriendo?');
+      });
+  } catch (e) {}
+})();
