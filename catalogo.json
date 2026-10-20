@@ -1,44 +1,23 @@
 [
   {
-    "id": "101",
-    "nombre": "Habitación 101",
+    "id": "sencilla",
+    "nombre": "Sencilla",
     "tipo": "Sencilla",
-    "descripcion": "Cómoda y tranquila, ideal para una persona.",
+    "descripcion": "Habitación cómoda y tranquila para una estadía de descanso.",
     "foto": "assets/habitacion-sencilla.jpg"
   },
   {
-    "id": "102",
-    "nombre": "Habitación 102",
-    "tipo": "Sencilla",
-    "descripcion": "Luminosa, con lo esencial para descansar.",
-    "foto": "assets/habitacion-sencilla.jpg"
-  },
-  {
-    "id": "201",
-    "nombre": "Habitación 201",
+    "id": "doble",
+    "nombre": "Doble",
     "tipo": "Doble",
-    "descripcion": "Más espacio para dos personas.",
+    "descripcion": "Más espacio para dos personas o para quien busca amplitud.",
     "foto": "assets/habitacion-doble.jpg"
   },
   {
-    "id": "202",
-    "nombre": "Habitación 202",
-    "tipo": "Doble",
-    "descripcion": "Amplia y acogedora, cama grande.",
-    "foto": "assets/habitacion-doble.jpg"
-  },
-  {
-    "id": "301",
-    "nombre": "Aparta Hotel 301",
+    "id": "aparta-hotel",
+    "nombre": "Aparta Hotel",
     "tipo": "Aparta Hotel",
-    "descripcion": "Comodidades de apartamento para estancias largas.",
-    "foto": "assets/aparta-hotel.jpg"
-  },
-  {
-    "id": "302",
-    "nombre": "Aparta Hotel 302",
-    "tipo": "Aparta Hotel",
-    "descripcion": "Sala y cocina, para sentirte en casa.",
+    "descripcion": "Comodidades de apartamento para estancias más largas.",
     "foto": "assets/aparta-hotel.jpg"
   }
 ]

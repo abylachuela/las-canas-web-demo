@@ -1079,7 +1079,7 @@ function tarjetaCatalogo(h) {
   art.innerHTML =
     `<img class="card__photo" src="${escapar(h.foto)}" alt="${escapar(h.nombre)} ${escapar(t('card.sample'))}" loading="lazy">` +
     `<div class="card__body">` +
-      `<span class="card__tipo">${escapar(h.tipo)}</span>` +
+      (h.tipo && h.tipo !== h.nombre ? `<span class="card__tipo">${escapar(h.tipo)}</span>` : '') +
       `<h3>${escapar(h.nombre)}</h3>` +
       `<p>${escapar(h.descripcion || '')}</p>` +
       (precio != null ? `<p class="card__price">${fmtMoneda(precio)} <span class="card__pricenote">${escapar(t('card.perNight'))}</span></p>` : '') +
