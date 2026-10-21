@@ -267,3 +267,7 @@ h1, h2 { font-family: var(--font-head); font-weight: 500; letter-spacing: -.01em
   .topbar__tag { display: none; }
   .topbar__brand strong { font-size: 1rem; }
 }
+
+/* Filas de la bandeja: clicables para abrir el correo. */
+.bandeja-row { cursor: pointer; }
+.bandeja-row:hover td, .bandeja-row:focus-visible td { background: color-mix(in srgb, var(--brand) 7%, transparent); }

@@ -24,11 +24,13 @@ let accionPendiente = null;
  * Las cookies de sesión viajan solas (mismo origen).
  * Lanza solo ante errores de red; los errores HTTP vienen en el objeto.
  */
+// Backend por defecto (el túnel). Así el demo funciona con solo abrir
+// .../las-canas-web-demo/ SIN tener que pasar ?api=. Se puede cambiar con
+// ?api=<otra-URL> y volver al modo estático con ?api=off.
+const API_DEFECTO = 'https://jamie-loan-mesh-roses.trycloudflare.com';
 async function pedir(url, opciones = {}) {
-  // Si hay un backend remoto configurado (apiBase, p.ej. el túnel), enruta ahí
-  // todas las llamadas /api e incluye la cookie de sesión (credentials).
-  let base = '';
-  try { base = localStorage.getItem('apiBase') || ''; } catch (e) { /* storage bloqueado */ }
+  let base = API_DEFECTO;
+  try { base = localStorage.getItem('apiBase') || API_DEFECTO; } catch (e) { /* storage bloqueado */ }
   const full = (base && typeof url === 'string' && url.indexOf('/api') === 0) ? base + url : url;
   const res = await fetch(full, {
     credentials: 'include',
@@ -267,6 +269,12 @@ const I18N = {
     'resv.total': 'Total',
     'resv.continuarPago': 'Continuar al pago',
     'resv.completarReserva': 'Completar reserva',
+    'resv.reservarOficina': 'Reservar (pago en oficina)',
+    'pago.comoPagar': '¿Cómo deseas pagar?',
+    'pago.enLinea': 'Pagar en línea',
+    'pago.enLineaDesc': 'Con tarjeta ahora. La reserva se confirma al completar el pago.',
+    'pago.enOficina': 'Pagar en la oficina',
+    'pago.enOficinaDesc': 'Reservas ahora y pagas al llegar al hotel.',
     'resv.pickType': 'Elige un tipo de habitación para continuar.',
     'resv.saveFail': 'No se pudo registrar la reserva.',
     /* Pago */
@@ -551,6 +559,12 @@ const I18N = {
     'resv.total': 'Total',
     'resv.continuarPago': 'Continue to payment',
     'resv.completarReserva': 'Complete booking',
+    'resv.reservarOficina': 'Book (pay at the office)',
+    'pago.comoPagar': 'How would you like to pay?',
+    'pago.enLinea': 'Pay online',
+    'pago.enLineaDesc': 'By card now. The booking is confirmed once payment completes.',
+    'pago.enOficina': 'Pay at the office',
+    'pago.enOficinaDesc': 'Book now and pay when you arrive at the hotel.',
     'resv.pickType': 'Choose a room type to continue.',
     'resv.saveFail': 'We could not register the booking.',
     /* Payment */
@@ -1291,6 +1305,7 @@ async function mostrarPaso2() {
   if (config === null) await cargarConfig();
   const activo = esPagoActivo();
   $('tipos').hidden = !activo;
+  if ($('formaPagoBox')) $('formaPagoBox').hidden = !activo;
 
   if (activo) {
     // Elegir tipo + ver total, luego continuar al pago.
@@ -1298,7 +1313,7 @@ async function mostrarPaso2() {
     const radios = $('tipos').querySelectorAll('input[name="tipo"]');
     if (radios.length && !tipoActual()) radios[0].checked = true; // preselecciona el primero
     actualizarTotal();
-    $('irPago').textContent = t('resv.continuarPago');
+    actualizarBotonPago();
     if (radios.length && modalActivo === modalReserva) radios[0].focus();
   } else {
     // Pago desactivado: sin tipos ni precios; reserva directa.
@@ -1308,6 +1323,17 @@ async function mostrarPaso2() {
     if (modalActivo === modalReserva) $('observacion').focus();
   }
 }
+
+// Forma de pago elegida (en línea / en oficina) y etiqueta del botón del paso 2.
+function formaPagoActual() {
+  const r = document.querySelector('input[name="formaPago"]:checked');
+  return r ? r.value : 'linea';
+}
+function actualizarBotonPago() {
+  $('irPago').textContent = formaPagoActual() === 'oficina'
+    ? t('resv.reservarOficina') : t('resv.continuarPago');
+}
+document.querySelectorAll('input[name="formaPago"]').forEach((r) => r.addEventListener('change', actualizarBotonPago));
 
 // --- Paso 3: pago ---
 function mostrarPaso3() {
@@ -1425,6 +1451,8 @@ $('reservaDetalle').addEventListener('submit', (e) => {
     nota.textContent = t('resv.pickType'); nota.className = 'disp-nota err';
     return;
   }
+  // En oficina: se crea la reserva ya (pago al llegar). En línea: va al pago.
+  if (formaPagoActual() === 'oficina') { hacerReservaOficina($('irPago')); return; }
   mostrarPaso3();
 });
 $('volverPaso2').addEventListener('click', () => mostrarPaso2());
@@ -1437,6 +1465,29 @@ async function hacerReservaSinPago(btn) {
     salida: salida.value,
     huespedes: $('huespedes').value,
     observacion: $('observacion').value.trim(),
+  };
+  cargando(btn, true);
+  try {
+    const { ok, status, data } = await pedir('/api/reservas', { method: 'POST', body: JSON.stringify(payload) });
+    if (status === 401) { volverAPaso1Por401(); return; }
+    if (ok && data.ok) { mostrarExito(data); return; }
+    msg.textContent = (data && data.error) || t('resv.saveFail'); msg.className = 'modal__msg err';
+  } catch {
+    msg.textContent = t('net.serverError'); msg.className = 'modal__msg err';
+  } finally { cargando(btn, false); }
+}
+
+// Reserva con pago en la oficina del hotel: crea la reserva ya (con el tipo),
+// sin cobro en línea; el huésped paga al llegar.
+async function hacerReservaOficina(btn) {
+  const msg = $('reservaMsg'); msg.textContent = ''; msg.className = 'modal__msg';
+  const payload = {
+    llegada: llegada.value,
+    salida: salida.value,
+    huespedes: $('huespedes').value,
+    tipo: tipoActual(),
+    observacion: $('observacion').value.trim(),
+    formaPago: 'oficina',
   };
   cargando(btn, true);
   try {
@@ -1528,6 +1579,7 @@ $('pagoForm').addEventListener('submit', async (e) => {
     huespedes: $('huespedes').value,
     tipo: tipoSeleccionado,
     observacion: $('observacion').value.trim(),
+    formaPago: 'linea',
     pago: {
       numero: pgNumero.value.replace(/\s/g, ''),
       vencimiento: pgVenc.value.trim(),
@@ -2105,7 +2157,7 @@ cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta 
       } catch (e) {}
     }
     var api = '';
-    try { api = localStorage.getItem('apiBase') || ''; } catch (e) {}
+    try { api = localStorage.getItem('apiBase') || API_DEFECTO; } catch (e) { api = API_DEFECTO; }
     if (!api) return;
     var b = document.createElement('div');
     b.setAttribute('role', 'status');

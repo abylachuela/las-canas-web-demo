@@ -8,8 +8,9 @@ const $ = (id) => document.getElementById(id);
 const MAX_BYTES = 6 * 1024 * 1024;
 const TEMAS = ['esmeralda', 'costa-azul', 'carbon-oro', 'editorial-blanco'];
 
-// Modo backend remoto: el admin del demo (github.io) va al backend del túnel.
-// ?api=<URL> guarda la base (compartida con el sitio cliente vía localStorage).
+// Backend por defecto (el túnel): el admin del demo (github.io) funciona con solo
+// abrir /admin.html, sin pasar ?api=. ?api=<URL> lo cambia; ?api=off vuelve a estático.
+const API_DEFECTO = 'https://jamie-loan-mesh-roses.trycloudflare.com';
 try {
   const _qp = new URLSearchParams(location.search).get('api');
   if (_qp != null) {
@@ -20,8 +21,8 @@ try {
 } catch (e) { /* storage bloqueado */ }
 
 async function pedir(url, opciones = {}) {
-  let base = '';
-  try { base = localStorage.getItem('apiBase') || ''; } catch (e) { /* storage */ }
+  let base = API_DEFECTO;
+  try { base = localStorage.getItem('apiBase') || API_DEFECTO; } catch (e) { /* storage */ }
   const full = (base && typeof url === 'string' && url.indexOf('/api') === 0) ? base + url : url;
   const res = await fetch(full, { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opciones });
   let data = {};
@@ -564,17 +565,68 @@ async function cargarBandeja() {
     const m = data.mensajes || [];
     if (!m.length) { wrap.innerHTML = '<p class="msg">No hay correos en la bandeja.</p>'; return; }
     const filas = m.map((x) =>
-      `<tr><td data-th="De">${esc(x.de || x.correo || '—')}</td>` +
+      `<tr class="bandeja-row" data-seq="${x.seq != null ? x.seq : ''}" tabindex="0" role="button" title="Abrir correo">` +
+      `<td data-th="De">${esc(x.de || x.correo || '—')}</td>` +
       `<td data-th="Asunto">${esc(x.asunto || '(sin asunto)')}</td>` +
       `<td data-th="Fecha">${fmtFechaHora(x.fecha)}</td></tr>`).join('');
     wrap.innerHTML =
+      `<p class="hint">Haz clic en un correo para leer su contenido.</p>` +
       `<div class="tablewrap"><table class="table"><thead><tr>` +
       `<th scope="col">De</th><th scope="col">Asunto</th><th scope="col">Fecha</th>` +
       `</tr></thead><tbody>${filas}</tbody></table></div>`;
+    wrap.querySelectorAll('.bandeja-row').forEach((tr) => {
+      const abrir = () => { const s = tr.getAttribute('data-seq'); if (s) verMensaje(s); };
+      tr.addEventListener('click', abrir);
+      tr.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abrir(); } });
+    });
   } catch {
     wrap.innerHTML = '<p class="msg err">Error de conexión al leer la bandeja.</p>';
   }
 }
+
+// Abre el contenido (cuerpo) de un correo de la bandeja.
+async function verMensaje(seq) {
+  const wrap = $('mensajeWrap');
+  wrap.hidden = false;
+  wrap.innerHTML = '<p class="msg">Abriendo correo…</p>';
+  try {
+    const { status, data } = await pedir('/api/admin/correo/mensaje?seq=' + encodeURIComponent(seq));
+    if (status === 401) { manejar401(); return; }
+    if (!data || !data.ok) { wrap.innerHTML = `<p class="msg warn">${esc((data && data.error) || 'No se pudo abrir el correo.')}</p>`; return; }
+    const cuerpo = data.esHtml
+      ? `<iframe sandbox="" srcdoc="${String(data.texto || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" style="width:100%;height:320px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>`
+      : `<pre style="white-space:pre-wrap;word-break:break-word;font:inherit;margin:0">${esc(data.texto || '(sin contenido)')}</pre>`;
+    wrap.innerHTML =
+      `<div class="card__head"><h3>${esc(data.asunto || '(sin asunto)')}</h3>` +
+      `<button class="btn btn--ghost btn--sm" type="button" id="cerrarMensaje">Cerrar</button></div>` +
+      `<p class="hint">De: ${esc(data.de || data.correo || '—')} · ${fmtFechaHora(data.fecha)}</p>` +
+      cuerpo;
+    $('cerrarMensaje').addEventListener('click', () => { wrap.hidden = true; wrap.innerHTML = ''; });
+  } catch {
+    wrap.innerHTML = '<p class="msg err">Error al abrir el correo.</p>';
+  }
+}
+
+// Enviar un correo desde el panel.
+$('enviarForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('btnEnviarCorreo'); const msg = $('enviarMsg');
+  msg.textContent = ''; msg.className = 'msg';
+  const to = $('envTo').value.trim();
+  if (!to) { mensaje(msg, 'Indica el correo del destinatario.', 'err'); return; }
+  cargando(btn, true);
+  try {
+    const { status, data } = await pedir('/api/admin/correo/enviar', {
+      method: 'POST',
+      body: JSON.stringify({ to, asunto: $('envAsunto').value.trim(), mensaje: $('envMensaje').value }),
+    });
+    if (status === 401) { manejar401(); return; }
+    if (data && data.ok) { mensaje(msg, data.mensaje || 'Correo enviado.', 'ok'); $('enviarForm').reset(); }
+    else { mensaje(msg, (data && data.error) || 'No se pudo enviar.', 'err'); }
+  } catch {
+    mensaje(msg, 'Error de conexión al enviar.', 'err');
+  } finally { cargando(btn, false); }
+});
 
 /* ----- WhatsApp (PREPARADO) ----- */
 async function cargarWhatsapp() {

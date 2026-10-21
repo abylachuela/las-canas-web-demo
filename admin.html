@@ -163,12 +163,27 @@
           </form>
         </section>
 
+        <section class="card" aria-labelledby="tEnviar">
+          <div class="card__head"><h2 id="tEnviar">Enviar correo</h2></div>
+          <p class="hint">Redacta y envía un correo usando el SMTP configurado arriba.</p>
+          <form class="correoform" id="enviarForm" novalidate>
+            <div class="field"><label for="envTo">Para</label><input type="email" id="envTo" placeholder="destinatario@correo.com" autocomplete="off" required /></div>
+            <div class="field"><label for="envAsunto">Asunto</label><input type="text" id="envAsunto" maxlength="160" placeholder="Asunto del correo" autocomplete="off" /></div>
+            <div class="field"><label for="envMensaje">Mensaje</label><textarea id="envMensaje" rows="6" maxlength="5000" placeholder="Escribe tu mensaje…"></textarea></div>
+            <div class="actions">
+              <button class="btn btn--solid" type="submit" id="btnEnviarCorreo">Enviar</button>
+              <p class="msg" id="enviarMsg" role="status"></p>
+            </div>
+          </form>
+        </section>
+
         <section class="card" aria-labelledby="tBandeja">
           <div class="card__head">
             <h2 id="tBandeja">Bandeja de entrada</h2>
             <button class="btn btn--ghost btn--sm" type="button" id="actualizarBandeja">Actualizar</button>
           </div>
           <div id="bandejaWrap"><p class="hint">Pulsa «Actualizar» para ver los últimos correos recibidos.</p></div>
+          <div id="mensajeWrap" class="prueba" hidden></div>
         </section>
       </div>
 

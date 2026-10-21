@@ -548,6 +548,19 @@
             <span class="total__label"><span data-i18n="resv.total">Total</span> <span id="totalPaso2Noches"></span></span>
             <strong class="total__val" id="totalPaso2Val"></strong>
           </div>
+          <fieldset class="tipos" id="formaPagoBox" hidden>
+            <legend class="step__hint" data-i18n="pago.comoPagar">¿Cómo deseas pagar?</legend>
+            <label class="tipo">
+              <input type="radio" name="formaPago" value="linea" checked>
+              <span class="tipo__name" data-i18n="pago.enLinea">Pagar en línea</span>
+              <span class="tipo__desc" data-i18n="pago.enLineaDesc">Con tarjeta ahora. La reserva se confirma al completar el pago.</span>
+            </label>
+            <label class="tipo">
+              <input type="radio" name="formaPago" value="oficina">
+              <span class="tipo__name" data-i18n="pago.enOficina">Pagar en la oficina</span>
+              <span class="tipo__desc" data-i18n="pago.enOficinaDesc">Reservas ahora y pagas al llegar al hotel.</span>
+            </label>
+          </fieldset>
           <button class="btn btn--solid modal__submit" type="submit" id="irPago">Continuar al pago</button>
           <p class="modal__msg" id="reservaMsg" role="alert"></p>
         </form>
