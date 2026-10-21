@@ -257,8 +257,8 @@ img, svg { display: block; max-width: 100%; }
 .account__hi { font-size: .88rem; color: var(--muted); max-width: 12ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .account__hi strong { color: var(--ink); font-weight: 600; }
 
-/* ===== Selector de tema ===== */
-.theme { position: relative; }
+/* ===== Selector de tema (oculto: se conserva el markup para app.js) ===== */
+.theme { position: relative; display: none; }
 .theme__btn {
   display: inline-flex; align-items: center; gap: .4rem; cursor: pointer;
   font: inherit; font-size: .85rem; font-weight: 500; color: var(--muted);
@@ -549,6 +549,7 @@ img, svg { display: block; max-width: 100%; }
 .foot__col p { margin-bottom: .35rem; font-size: .92rem; color: var(--muted); }
 .foot__col a:hover { color: var(--brand); }
 .foot__bar { border-top: 1px solid var(--line); }
+.foot__lang { display: flex; justify-content: center; padding: 1.1rem var(--gutter) .1rem; }
 .foot__bar p { max-width: var(--maxw); margin: 0 auto; padding: 1rem var(--gutter); font-size: .82rem; color: var(--muted); text-align: center; }
 
 /* =========================== Modales =========================== */
@@ -783,7 +784,7 @@ img, svg { display: block; max-width: 100%; }
 }
 
 @media (max-width: 620px) {
-  .nav__wa, .nav__actions > .linkish, .nav__actions > .account { display: none; }
+  .nav__cancel, .nav__inner > .account { display: none; }
   .nav__inner { gap: .5rem; }
   .theme__label { display: none; }
   .theme__btn { padding: .5em; }
