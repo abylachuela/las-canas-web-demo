@@ -135,7 +135,7 @@ const I18N = {
     'intro.title': 'Una pausa serena en la costa sureste.',
     'intro.lede': 'Habitaciones cuidadas, piscina al aire libre y la calma de La Romana para descansar de verdad, lejos del ruido.',
     'intro.stat1': 'La Romana', 'intro.lbl1': 'costa sureste de RD',
-    'intro.stat2': 'Playa Las Cañas', 'intro.lbl2': 'cerca del hotel',
+    'intro.stat2': 'Playa Dominicus', 'intro.lbl2': 'en Bayahíbe',
     'intro.stat3': 'Piscina', 'intro.lbl3': 'al aire libre',
     'intro.stat4': '3 tipos', 'intro.lbl4': 'Sencilla · Doble · Aparta Hotel',
     /* Comodidades */
@@ -177,7 +177,7 @@ const I18N = {
     /* Ubicación */
     'place.eyebrow': 'Dónde estamos',
     'place.title': 'La Romana.',
-    'place.lede': 'En la costa sureste de la República Dominicana, cerca de Playa Las Cañas. Ideal para unos días de descanso con el mar a la mano.',
+    'place.lede': 'En la costa sureste de la República Dominicana, cerca de Playa Dominicus. Ideal para unos días de descanso con el mar a la mano.',
     'place.map': 'Ver en el mapa',
     /* Cerca del hotel */
     'nearby.eyebrow': 'Cerca del hotel',
@@ -187,7 +187,7 @@ const I18N = {
     'nearby.c3': 'Playas de arena blanca y arrecifes de coral para bucear y hacer snorkel, frente a la costa.',
     'nearby.c4': 'Pueblo de pescadores y punto de salida en catamarán hacia la paradisíaca Isla Saona.',
     'nearby.c5': 'Puerto de lujo con restaurantes, boutiques y yates, a pocos minutos del hotel.',
-    'nearby.c6': 'Mar y arena a pocos minutos, perfectos para un día de descanso junto al Caribe.',
+    'nearby.c6': 'Arena blanca y aguas turquesa en Bayahíbe, una de las mejores playas del sureste para un día de sol.',
     'nearby.map': 'Ver en el mapa →',
     'nearby.note': 'Distancias y tiempos son aproximados; conviene confirmarlos antes de salir.',
     'nearby.img1': 'Altos de Chavón, aldea mediterránea de piedra sobre el río Chavón',
@@ -195,7 +195,7 @@ const I18N = {
     'nearby.img3': 'Isla Catalina, playa de arena blanca y arrecifes de coral',
     'nearby.img4': 'Bayahíbe e Isla Saona, playas paradisíacas del Caribe',
     'nearby.img5': 'Marina Casa de Campo con yates y restaurantes de lujo',
-    'nearby.img6': 'Playa Las Cañas, mar y arena cerca del hotel',
+    'nearby.img6': 'Playa Dominicus, arena blanca y aguas turquesa en Bayahíbe',
     /* Reseñas de huéspedes */
     'rev.eyebrow': 'Reseñas',
     'rev.title': 'Reseñas de huéspedes',
@@ -425,7 +425,7 @@ const I18N = {
     'intro.title': 'A serene pause on the southeast coast.',
     'intro.lede': 'Well-kept rooms, an outdoor pool and the calm of La Romana for real rest, far from the noise.',
     'intro.stat1': 'La Romana', 'intro.lbl1': 'southeast coast of the DR',
-    'intro.stat2': 'Playa Las Cañas', 'intro.lbl2': 'near the hotel',
+    'intro.stat2': 'Playa Dominicus', 'intro.lbl2': 'in Bayahíbe',
     'intro.stat3': 'Pool', 'intro.lbl3': 'outdoors',
     'intro.stat4': '3 types', 'intro.lbl4': 'Single · Double · Apart-Hotel',
     /* Amenities */
@@ -467,7 +467,7 @@ const I18N = {
     /* Location */
     'place.eyebrow': 'Where we are',
     'place.title': 'La Romana.',
-    'place.lede': 'On the southeast coast of the Dominican Republic, near Playa Las Cañas. Perfect for a few restful days with the sea close by.',
+    'place.lede': 'On the southeast coast of the Dominican Republic, near Playa Dominicus. Perfect for a few restful days with the sea close by.',
     'place.map': 'View on the map',
     /* Nearby */
     'nearby.eyebrow': 'Near the hotel',
@@ -477,7 +477,7 @@ const I18N = {
     'nearby.c3': 'White-sand beaches and coral reefs for diving and snorkeling, just off the coast.',
     'nearby.c4': 'A fishing village and the departure point by catamaran to the idyllic Saona Island.',
     'nearby.c5': 'A luxury marina with restaurants, boutiques and yachts, minutes from the hotel.',
-    'nearby.c6': 'Sea and sand just minutes away, perfect for a restful day by the Caribbean.',
+    'nearby.c6': 'White sand and turquoise water in Bayahíbe, one of the southeast’s finest beaches for a day in the sun.',
     'nearby.map': 'View on the map →',
     'nearby.note': 'Distances and times are approximate; it is best to confirm them before setting out.',
     'nearby.img1': 'Altos de Chavón, a Mediterranean stone village above the Chavón River',
@@ -485,7 +485,7 @@ const I18N = {
     'nearby.img3': 'Isla Catalina, white-sand beach and coral reefs',
     'nearby.img4': 'Bayahíbe and Saona Island, idyllic Caribbean beaches',
     'nearby.img5': 'Marina Casa de Campo with yachts and luxury restaurants',
-    'nearby.img6': 'Playa Las Cañas, sea and sand near the hotel',
+    'nearby.img6': 'Playa Dominicus, white sand and turquoise water in Bayahíbe',
     /* Guest reviews */
     'rev.eyebrow': 'Reviews',
     'rev.title': 'Guest reviews',
@@ -834,6 +834,11 @@ function renderCuenta() {
       b.addEventListener('click', () => { cerrarMenuMovil(); salir(); }));
     cont.querySelectorAll('[data-misreservas]').forEach((b) =>
       b.addEventListener('click', () => { cerrarMenuMovil(); abrirMisReservas(); }));
+  });
+  // "Cancelar reserva" solo tiene sentido con sesión iniciada: ocultarlo sin ella.
+  ['openCancel', 'openCancelMobile'].forEach((id) => {
+    const b = $(id);
+    if (b) b.hidden = !usuario;
   });
   // El formulario de reseñas depende de la sesión: refréscalo con la cuenta.
   if (typeof renderResenasForm === 'function') renderResenasForm();
