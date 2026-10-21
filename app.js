@@ -237,6 +237,16 @@ const I18N = {
     'auth.title': 'Ingresar',
     'auth.sub': 'Entra con tu cuenta para continuar. ¿Primera vez? Crea tu cuenta al reservar.',
     'auth.submit': 'Ingresar',
+    'auth.olvidaste': '¿Olvidaste tu contraseña?',
+    'recuperar.enviado': 'Si el correo está registrado, te enviamos un enlace para restablecer tu contraseña.',
+    'reset.title': 'Nueva contraseña',
+    'reset.sub': 'Escribe tu nueva contraseña.',
+    'reset.nueva': 'Nueva contraseña',
+    'reset.confirmar': 'Repite la contraseña',
+    'reset.submit': 'Guardar contraseña',
+    'reset.noCoincide': 'Las contraseñas no coinciden.',
+    'reset.ok': 'Contraseña actualizada. Ya puedes iniciar sesión.',
+    'reset.fail': 'No se pudo restablecer. El enlace pudo expirar.',
     /* Modal reserva */
     'resv.title': 'Reservar',
     'resv.stepsAria': 'Pasos de la reserva',
@@ -511,6 +521,16 @@ const I18N = {
     'auth.title': 'Sign in',
     'auth.sub': 'Sign in with your account to continue. First time? Create your account when you book.',
     'auth.submit': 'Sign in',
+    'auth.olvidaste': 'Forgot your password?',
+    'recuperar.enviado': 'If the email is registered, we sent you a link to reset your password.',
+    'reset.title': 'New password',
+    'reset.sub': 'Enter your new password.',
+    'reset.nueva': 'New password',
+    'reset.confirmar': 'Repeat password',
+    'reset.submit': 'Save password',
+    'reset.noCoincide': 'Passwords do not match.',
+    'reset.ok': 'Password updated. You can sign in now.',
+    'reset.fail': 'Could not reset. The link may have expired.',
     /* Booking modal */
     'resv.title': 'Book now',
     'resv.stepsAria': 'Booking steps',
@@ -847,6 +867,69 @@ panelLogin.addEventListener('submit', async (e) => {
     msg.textContent = t('net.error'); msg.className = 'modal__msg err';
   } finally { cargando(btn, false); }
 });
+
+// --- Recuperar contraseña: envía un enlace al correo ---
+if ($('irRecuperar')) $('irRecuperar').addEventListener('click', async () => {
+  const email = $('loginEmail'); const msg = $('loginMsg');
+  const v = email.value.trim();
+  if (!EMAIL_RE.test(v)) { marcarError(email, $('loginEmailErr'), t('err.email')); email.focus(); return; }
+  const btn = $('irRecuperar'); cargando(btn, true);
+  try {
+    const { data } = await pedir('/api/recuperar', { method: 'POST', body: JSON.stringify({ email: v }) });
+    msg.textContent = (data && data.mensaje) || t('recuperar.enviado'); msg.className = 'modal__msg ok';
+  } catch { msg.textContent = t('net.error'); msg.className = 'modal__msg err'; }
+  finally { cargando(btn, false); }
+});
+
+// --- Restablecer contraseña: se abre si la URL trae ?reset=TOKEN ---
+(function () {
+  let token = null;
+  try { token = new URLSearchParams(location.search).get('reset'); } catch (e) { /* sin query */ }
+  if (!token) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'modal'; wrap.id = 'modalReset'; wrap.hidden = true;
+  wrap.innerHTML =
+    '<div class="modal__backdrop" data-close></div>' +
+    '<div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="resetTitle">' +
+      '<h2 class="modal__title" id="resetTitle">' + escapar(t('reset.title')) + '</h2>' +
+      '<p class="modal__sub">' + escapar(t('reset.sub')) + '</p>' +
+      '<form class="mform" id="formReset" novalidate>' +
+        '<div class="field"><label for="resetPass">' + escapar(t('reset.nueva')) + '</label>' +
+          '<input type="password" id="resetPass" autocomplete="new-password" required minlength="6"></div>' +
+        '<div class="field"><label for="resetPass2">' + escapar(t('reset.confirmar')) + '</label>' +
+          '<input type="password" id="resetPass2" autocomplete="new-password" required minlength="6"></div>' +
+        '<button class="btn btn--solid modal__submit" type="submit" id="btnReset">' + escapar(t('reset.submit')) + '</button>' +
+        '<p class="modal__msg" id="resetMsg" role="alert"></p>' +
+      '</form>' +
+    '</div>';
+  const arranque = () => {
+    document.body.appendChild(wrap);
+    abrirModal(wrap, { foco: $('resetPass') });
+    wrap.querySelector('[data-close]').addEventListener('click', () => cerrarModal({ devolverFoco: false }));
+    $('formReset').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const p1 = $('resetPass'), p2 = $('resetPass2'), msg = $('resetMsg');
+      msg.textContent = ''; msg.className = 'modal__msg';
+      if (p1.value.length < 6) { msg.textContent = t('err.min6'); msg.className = 'modal__msg err'; return; }
+      if (p1.value !== p2.value) { msg.textContent = t('reset.noCoincide'); msg.className = 'modal__msg err'; return; }
+      const btn = $('btnReset'); cargando(btn, true);
+      try {
+        const { data } = await pedir('/api/restablecer', { method: 'POST', body: JSON.stringify({ token, password: p1.value }) });
+        if (data.ok) {
+          msg.textContent = data.mensaje || t('reset.ok'); msg.className = 'modal__msg ok';
+          setTimeout(() => {
+            cerrarModal({ devolverFoco: false });
+            try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+            abrirAuth();
+          }, 1600);
+        } else { msg.textContent = data.error || t('reset.fail'); msg.className = 'modal__msg err'; }
+      } catch { msg.textContent = t('net.error'); msg.className = 'modal__msg err'; }
+      finally { cargando(btn, false); }
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arranque);
+  else arranque();
+})();
 
 // Autolimpieza de errores al escribir.
 [['loginEmail', 'loginEmailErr'], ['loginPass', 'loginPassErr'],
