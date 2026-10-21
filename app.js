@@ -31,15 +31,35 @@ const API_DEFECTO = 'https://jamie-loan-mesh-roses.trycloudflare.com';
 async function pedir(url, opciones = {}) {
   let base = API_DEFECTO;
   try { base = localStorage.getItem('apiBase') || API_DEFECTO; } catch (e) { /* storage bloqueado */ }
-  const full = (base && typeof url === 'string' && url.indexOf('/api') === 0) ? base + url : url;
-  const res = await fetch(full, {
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    ...opciones,
-  });
-  let data = {};
-  try { data = await res.json(); } catch { /* respuesta sin cuerpo JSON */ }
-  return { ok: res.ok, status: res.status, data };
+  const opts = { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opciones };
+  const destino = (b) => (b && typeof url === 'string' && url.indexOf('/api') === 0) ? b + url : url;
+  // Códigos que indican que el backend no está ahí (túnel caído, página de error de Cloudflare), no un error de la app.
+  const infraCaida = (s) => s === 0 || s === 404 || s === 405 || s >= 500;
+  const intentar = async (b) => {
+    const res = await fetch(destino(b), opts);
+    let data = {};
+    try { data = await res.json(); } catch { /* respuesta sin cuerpo JSON */ }
+    return { ok: res.ok, status: res.status, data };
+  };
+  try {
+    const r = await intentar(base);
+    // Si el destino guardado (p. ej. un túnel viejo de un ?api= anterior) ya no sirve,
+    // reintenta con el backend por defecto y lo adopta para no volver a fallar.
+    if (!r.ok && infraCaida(r.status) && base !== API_DEFECTO && API_DEFECTO) {
+      const r2 = await intentar(API_DEFECTO);
+      try { localStorage.setItem('apiBase', API_DEFECTO); } catch (e) {}
+      return r2;
+    }
+    return r;
+  } catch (err) {
+    // Error de red (DNS/conexión/CORS): el destino guardado no responde.
+    if (base !== API_DEFECTO && API_DEFECTO) {
+      const r2 = await intentar(API_DEFECTO);
+      try { localStorage.setItem('apiBase', API_DEFECTO); } catch (e) {}
+      return r2;
+    }
+    throw err;
+  }
 }
 
 // Activa/desactiva el estado de carga de un botón (spinner + bloqueo).

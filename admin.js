@@ -23,11 +23,31 @@ try {
 async function pedir(url, opciones = {}) {
   let base = API_DEFECTO;
   try { base = localStorage.getItem('apiBase') || API_DEFECTO; } catch (e) { /* storage */ }
-  const full = (base && typeof url === 'string' && url.indexOf('/api') === 0) ? base + url : url;
-  const res = await fetch(full, { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opciones });
-  let data = {};
-  try { data = await res.json(); } catch { /* sin cuerpo */ }
-  return { ok: res.ok, status: res.status, data };
+  const opts = { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opciones };
+  const destino = (b) => (b && typeof url === 'string' && url.indexOf('/api') === 0) ? b + url : url;
+  const infraCaida = (s) => s === 0 || s === 404 || s === 405 || s >= 500;
+  const intentar = async (b) => {
+    const res = await fetch(destino(b), opts);
+    let data = {};
+    try { data = await res.json(); } catch { /* sin cuerpo */ }
+    return { ok: res.ok, status: res.status, data };
+  };
+  try {
+    const r = await intentar(base);
+    if (!r.ok && infraCaida(r.status) && base !== API_DEFECTO && API_DEFECTO) {
+      const r2 = await intentar(API_DEFECTO);
+      try { localStorage.setItem('apiBase', API_DEFECTO); } catch (e) {}
+      return r2;
+    }
+    return r;
+  } catch (err) {
+    if (base !== API_DEFECTO && API_DEFECTO) {
+      const r2 = await intentar(API_DEFECTO);
+      try { localStorage.setItem('apiBase', API_DEFECTO); } catch (e) {}
+      return r2;
+    }
+    throw err;
+  }
 }
 function cargando(btn, activo) {
   if (!btn) return;
