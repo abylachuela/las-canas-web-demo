@@ -1207,7 +1207,7 @@ function tarjetaCatalogo(h) {
   art.className = 'card reveal in tilt3d';
   const precio = esPagoActivo() ? precioDeTipo(h.tipo) : null;
   art.innerHTML =
-    `<img class="card__photo" src="${escapar(h.foto)}" alt="${escapar(h.nombre)} ${escapar(t('card.sample'))}" loading="lazy">` +
+    `<img class="card__photo" src="${escapar(h.foto)}" alt="${escapar(h.nombre)}" loading="lazy">` +
     `<div class="card__body">` +
       (h.tipo && h.tipo !== h.nombre ? `<span class="card__tipo">${escapar(h.tipo)}</span>` : '') +
       `<h3>${escapar(h.nombre)}</h3>` +
