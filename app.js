@@ -2009,7 +2009,8 @@ cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta 
    Abre el demo con ?api=<URL-del-túnel> para que TODAS las llamadas /api vayan a
    ese backend (ver pedir()) y así emular el sitio real (frontend en el hosting +
    backend/BD en la LAN por el túnel). Se guarda en localStorage y persiste.
-   ?api=off  borra la configuración y vuelve al modo estático. */
+   ?api=off  borra la configuración y vuelve al modo estático.
+   El aviso va ABAJO, se puede cerrar con clic y se oculta solo. */
 (function () {
   try {
     var qp = new URLSearchParams(location.search).get('api');
@@ -2025,11 +2026,14 @@ cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta 
     if (!api) return;
     var b = document.createElement('div');
     b.setAttribute('role', 'status');
-    b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;padding:11px 16px;font:600 14px/1.45 Inter,system-ui,sans-serif;text-align:center;color:#fff;background:#6b6b6b';
+    b.title = 'Clic para ocultar';
+    b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:99999;padding:9px 16px;font:600 13px/1.4 Inter,system-ui,sans-serif;text-align:center;color:#fff;background:#6b6b6b;cursor:pointer';
     b.textContent = 'Conectando con el servidor por el túnel…';
+    var quitar = function () { if (b && b.parentNode) b.parentNode.removeChild(b); };
+    b.addEventListener('click', quitar);
     var add = function () { (document.body || document.documentElement).appendChild(b); };
     if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
-    var set = function (bg, txt) { b.style.background = bg; b.textContent = txt; };
+    var set = function (bg, txt) { b.style.background = bg; b.textContent = txt + '   (clic para ocultar)'; setTimeout(quitar, 6000); };
     fetch(api + '/api/salud', { cache: 'no-store' })
       .then(function (r) {
         if (r.ok) return r.json().then(function (d) {
@@ -2039,7 +2043,7 @@ cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta 
         set('#9a6b00', '⚠️ Backend alcanzado por el túnel, pero respondió HTTP ' + r.status + '.');
       })
       .catch(function () {
-        set('#8a1f1f', '❌ No se pudo alcanzar el backend (' + api + '). ¿cloudflared y la app están corriendo?');
+        set('#8a1f1f', '❌ No se pudo alcanzar el backend (' + api + ').');
       });
   } catch (e) {}
 })();
