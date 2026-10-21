@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="es-DO">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Administración · Hotel Las Cañas</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <!-- ===== Pantalla de inicio de sesión ===== -->
+  <section class="screen" id="loginScreen" hidden>
+    <form class="login" id="loginForm" novalidate>
+      <img class="login__logo" src="assets/logo-lascanas.png" alt="Hotel Las Cañas" width="150" height="93" />
+      <h1>Administración</h1>
+      <p class="login__sub">Panel privado</p>
+      <div class="field">
+        <label for="adminUser">Usuario</label>
+        <input type="text" id="adminUser" autocomplete="username" placeholder="usuario" />
+      </div>
+      <div class="field">
+        <label for="adminPass">Contraseña</label>
+        <input type="password" id="adminPass" autocomplete="current-password" placeholder="••••••••" />
+      </div>
+      <button class="btn btn--solid" type="submit" id="btnLogin">Entrar</button>
+      <p class="msg" id="loginMsg" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- ===== Panel ===== -->
+  <section class="screen screen--panel" id="panelScreen" hidden>
+    <header class="topbar">
+      <div class="topbar__brand">
+        <img class="topbar__logo" src="assets/logo-lascanas.png" alt="Hotel Las Cañas" width="74" height="46" />
+        <span class="topbar__tag">Administración</span>
+      </div>
+      <div class="topbar__actions">
+        <a class="btn btn--ghost btn--sm" href="index.html" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button class="btn btn--ghost btn--sm" type="button" id="btnSalir">Salir</button>
+      </div>
+    </header>
+
+    <nav class="adminnav" id="adminnav" role="tablist" aria-label="Secciones del panel">
+      <button type="button" class="adminnav__tab" role="tab" id="tab-reservas" aria-controls="viewReservas" aria-selected="true" data-view="viewReservas">Reservas</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-estadisticas" aria-controls="viewEstadisticas" aria-selected="false" tabindex="-1" data-view="viewEstadisticas">Estadísticas</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-clientes" aria-controls="viewClientes" aria-selected="false" tabindex="-1" data-view="viewClientes">Clientes</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-promociones" aria-controls="viewPromociones" aria-selected="false" tabindex="-1" data-view="viewPromociones">Promociones</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-correo" aria-controls="viewCorreo" aria-selected="false" tabindex="-1" data-view="viewCorreo">Correo</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-whatsapp" aria-controls="viewWhatsapp" aria-selected="false" tabindex="-1" data-view="viewWhatsapp">WhatsApp</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-resenas" aria-controls="viewResenas" aria-selected="false" tabindex="-1" data-view="viewResenas">Reseñas</button>
+      <button type="button" class="adminnav__tab" role="tab" id="tab-ajustes" aria-controls="viewAjustes" aria-selected="false" tabindex="-1" data-view="viewAjustes">Ajustes</button>
+    </nav>
+
+    <main class="panel">
+      <!-- ===== Vista: Reservas ===== -->
+      <div class="view" id="viewReservas" role="tabpanel" aria-labelledby="tab-reservas">
+        <section class="card" aria-labelledby="tReservas">
+          <div class="card__head">
+            <h2 id="tReservas">Reservas</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="recargarReservas">Recargar</button>
+          </div>
+          <div class="tablewrap" id="reservasWrap"><p class="msg" id="reservasMsg">Cargando…</p></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Estadísticas ===== -->
+      <div class="view" id="viewEstadisticas" role="tabpanel" aria-labelledby="tab-estadisticas" hidden>
+        <section class="card" aria-labelledby="tEstadisticas">
+          <div class="card__head">
+            <h2 id="tEstadisticas">Estadísticas</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="recargarEstadisticas">Recargar</button>
+          </div>
+          <div id="estadisticasWrap"><p class="msg" id="estadisticasMsg">Cargando…</p></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Clientes ===== -->
+      <div class="view" id="viewClientes" role="tabpanel" aria-labelledby="tab-clientes" hidden>
+        <section class="card" aria-labelledby="tClientes">
+          <div class="card__head">
+            <h2 id="tClientes">Clientes</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="recargarClientes">Recargar</button>
+          </div>
+          <p class="hint">Marca clientes para enviarles una promoción específica desde la sección Promociones.</p>
+          <div class="tablewrap" id="clientesWrap"><p class="msg" id="clientesMsg">Cargando…</p></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Promociones ===== -->
+      <div class="view" id="viewPromociones" role="tabpanel" aria-labelledby="tab-promociones" hidden>
+        <section class="card" aria-labelledby="tPromociones">
+          <h2 id="tPromociones">Promociones</h2>
+          <p class="hint">Solo se envía a clientes que aceptaron recibir promociones (por privacidad).</p>
+          <form class="promoform" id="promoForm" novalidate>
+            <div class="field">
+              <label for="promoAsunto">Asunto</label>
+              <input type="text" id="promoAsunto" maxlength="160" placeholder="Ej. Oferta de temporada baja" />
+            </div>
+            <div class="field">
+              <label for="promoMensaje">Mensaje</label>
+              <textarea id="promoMensaje" rows="6" maxlength="5000" placeholder="Escribe el contenido de la promoción…"></textarea>
+            </div>
+            <fieldset class="group">
+              <legend>Destinatarios</legend>
+              <label class="check"><input type="radio" name="promoDest" value="todos" checked /> Todos los que aceptaron promociones</label>
+              <label class="check"><input type="radio" name="promoDest" value="elegidos" /> Solo los clientes seleccionados en la sección Clientes</label>
+              <p class="hint" id="promoSelCount" aria-live="polite"></p>
+            </fieldset>
+            <div class="actions">
+              <button class="btn btn--solid" type="submit" id="enviarPromo">Enviar promoción</button>
+              <p class="msg" id="promoMsg" role="status"></p>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Correo (SMTP envío + IMAP/POP3 recepción) ===== -->
+      <div class="view" id="viewCorreo" role="tabpanel" aria-labelledby="tab-correo" hidden>
+        <section class="card" aria-labelledby="tCorreo">
+          <div class="card__head">
+            <h2 id="tCorreo">Correo</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="recargarCorreo">Recargar</button>
+          </div>
+          <p class="hint">Configura el envío (SMTP) y la recepción (IMAP/POP3). Las contraseñas nunca se muestran; déjalas en blanco para conservar la actual.</p>
+          <form class="correoform" id="correoForm" novalidate>
+            <fieldset class="group">
+              <legend>Envío (SMTP)</legend>
+              <div class="grid2">
+                <div class="field"><label for="smtpHost">Servidor (host)</label><input type="text" id="smtpHost" placeholder="smtp.dominio.com" autocomplete="off" /></div>
+                <div class="field"><label for="smtpPort">Puerto</label><input type="number" id="smtpPort" min="1" max="65535" placeholder="587" /></div>
+              </div>
+              <div class="grid2">
+                <div class="field"><label for="smtpUser">Usuario</label><input type="text" id="smtpUser" placeholder="correo@dominio.com" autocomplete="off" /></div>
+                <div class="field"><label for="smtpFrom">Remitente (from)</label><input type="text" id="smtpFrom" placeholder="Hotel Las Cañas &lt;correo@dominio.com&gt;" autocomplete="off" /></div>
+              </div>
+              <div class="field"><label for="smtpPass">Contraseña</label><input type="password" id="smtpPass" placeholder="••••••••" autocomplete="new-password" /></div>
+            </fieldset>
+            <fieldset class="group">
+              <legend>Recepción (IMAP / POP3)</legend>
+              <div class="grid2">
+                <div class="field">
+                  <label for="recProtocolo">Protocolo</label>
+                  <select id="recProtocolo"><option value="imap">IMAP</option><option value="pop3">POP3</option></select>
+                </div>
+                <div class="field"><label for="recPort">Puerto</label><input type="number" id="recPort" min="1" max="65535" placeholder="993" /></div>
+              </div>
+              <div class="grid2">
+                <div class="field"><label for="recHost">Servidor (host)</label><input type="text" id="recHost" placeholder="imap.dominio.com" autocomplete="off" /></div>
+                <div class="field"><label for="recUser">Usuario</label><input type="text" id="recUser" placeholder="correo@dominio.com" autocomplete="off" /></div>
+              </div>
+              <div class="field"><label for="recPass">Contraseña</label><input type="password" id="recPass" placeholder="••••••••" autocomplete="new-password" /></div>
+            </fieldset>
+            <div class="actions">
+              <button class="btn btn--solid" type="submit" id="guardarCorreo">Guardar</button>
+              <button class="btn btn--ghost" type="button" id="probarCorreo">Probar conexión</button>
+              <p class="msg" id="correoMsg" role="status"></p>
+            </div>
+            <div id="correoPruebaWrap" class="prueba" hidden></div>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="tBandeja">
+          <div class="card__head">
+            <h2 id="tBandeja">Bandeja de entrada</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="actualizarBandeja">Actualizar</button>
+          </div>
+          <div id="bandejaWrap"><p class="hint">Pulsa «Actualizar» para ver los últimos correos recibidos.</p></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: WhatsApp (promociones — PREPARADO) ===== -->
+      <div class="view" id="viewWhatsapp" role="tabpanel" aria-labelledby="tab-whatsapp" hidden>
+        <section class="card" aria-labelledby="tWhatsapp">
+          <div class="card__head">
+            <h2 id="tWhatsapp">WhatsApp</h2>
+            <span class="badge badge--info" id="waEstado">Preparado</span>
+          </div>
+          <p class="hint">Solo se incluye a clientes que aceptaron promociones y tienen teléfono. El envío real se activará al conectar un proveedor de WhatsApp.</p>
+          <p class="wa-count" id="waCount" aria-live="polite">Cargando destinatarios…</p>
+          <form class="promoform" id="waForm" novalidate>
+            <div class="field">
+              <label for="waMensaje">Mensaje</label>
+              <textarea id="waMensaje" rows="6" maxlength="2000" placeholder="Escribe el mensaje de la promoción…"></textarea>
+            </div>
+            <div class="actions">
+              <button class="btn btn--solid" type="submit" id="prepararWa">Preparar promoción</button>
+              <p class="msg" id="waMsg" role="status"></p>
+            </div>
+          </form>
+          <div id="waAvisoWrap" class="prueba" hidden></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Reseñas (estadísticas + moderación) ===== -->
+      <div class="view" id="viewResenas" role="tabpanel" aria-labelledby="tab-resenas" hidden>
+        <section class="card" aria-labelledby="tResenasStats">
+          <div class="card__head">
+            <h2 id="tResenasStats">Reseñas</h2>
+            <button class="btn btn--ghost btn--sm" type="button" id="recargarResenas">Recargar</button>
+          </div>
+          <div id="resenasStatsWrap"><p class="msg" id="resenasStatsMsg">Cargando…</p></div>
+        </section>
+
+        <section class="card" aria-labelledby="tResenasLista">
+          <h2 id="tResenasLista">Moderación</h2>
+          <p class="hint">Las reseñas no aprobadas no se muestran como testimonio público.</p>
+          <div class="resfiltros" role="group" aria-label="Filtrar reseñas" id="resenasFiltros">
+            <button type="button" class="btn btn--ghost btn--sm resfiltro is-active" data-filtro="">Todas</button>
+            <button type="button" class="btn btn--ghost btn--sm resfiltro" data-filtro="positivas">Positivas (4-5★)</button>
+            <button type="button" class="btn btn--ghost btn--sm resfiltro" data-filtro="negativas">Negativas (1-2★)</button>
+            <button type="button" class="btn btn--ghost btn--sm resfiltro" data-filtro="neutras">Neutras (3★)</button>
+          </div>
+          <div id="resenasListaWrap"><p class="msg" id="resenasListaMsg">Cargando…</p></div>
+        </section>
+      </div>
+
+      <!-- ===== Vista: Ajustes (configuración del sitio) ===== -->
+      <div class="view" id="viewAjustes" role="tabpanel" aria-labelledby="tab-ajustes" hidden>
+      <!-- a) Pagos -->
+      <section class="card" aria-labelledby="tPagos">
+        <h2 id="tPagos">Pagos</h2>
+        <div class="row row--switch">
+          <label class="switch">
+            <input type="checkbox" id="pagoActivo" />
+            <span class="switch__track" aria-hidden="true"></span>
+            <span class="switch__label">Pago en línea activo</span>
+          </label>
+          <p class="hint">Si se apaga, el sitio no muestra precios ni cobra (reserva sin pago).</p>
+        </div>
+
+        <fieldset class="group">
+          <legend>Métodos aceptados</legend>
+          <label class="check"><input type="checkbox" value="visa" class="metodo" /> Visa</label>
+          <label class="check"><input type="checkbox" value="mastercard" class="metodo" /> Mastercard</label>
+          <label class="check"><input type="checkbox" value="amex" class="metodo" /> Amex</label>
+        </fieldset>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="modoPago">Modo de pago</label>
+            <select id="modoPago">
+              <option value="simulado">Simulado (prueba)</option>
+              <option value="pasarela">Pasarela real</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="group group--pasarela" id="pasarelaBox" hidden>
+          <p class="hint">Conexión con la pasarela: <strong>pendiente de conectar</strong> (marcadores).</p>
+          <div class="grid2">
+            <div class="field">
+              <label for="pasProveedor">Proveedor</label>
+              <select id="pasProveedor">
+                <option value="">—</option>
+                <option value="Azul">Azul</option>
+                <option value="CardNet">CardNet</option>
+                <option value="Stripe">Stripe</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pasModo">Entorno</label>
+              <select id="pasModo">
+                <option value="sandbox">Sandbox</option>
+                <option value="produccion">Producción</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--solid" type="button" id="guardarPagos">Guardar pagos</button>
+          <p class="msg" id="pagosMsg" role="status"></p>
+        </div>
+      </section>
+
+      <!-- b) Fotos de habitaciones -->
+      <section class="card" aria-labelledby="tFotos">
+        <h2 id="tFotos">Fotos de habitaciones</h2>
+        <p class="hint">Cambia la foto de cada habitación (PNG, JPG o WEBP, máx. 6 MB).</p>
+        <div class="rooms" id="rooms"><p class="msg" id="roomsMsg">Cargando…</p></div>
+      </section>
+
+      <!-- c) Tarifas -->
+      <section class="card" aria-labelledby="tTarifas">
+        <h2 id="tTarifas">Tarifas (RD$ por noche)</h2>
+        <div class="tarifas" id="tarifas"></div>
+        <div class="actions">
+          <button class="btn btn--solid" type="button" id="guardarTarifas">Guardar tarifas</button>
+          <p class="msg" id="tarifasMsg" role="status"></p>
+        </div>
+      </section>
+
+      <!-- d) Contacto -->
+      <section class="card" aria-labelledby="tContacto">
+        <h2 id="tContacto">Contacto</h2>
+        <div class="grid2">
+          <div class="field"><label for="cTelefono">Teléfono</label><input type="text" id="cTelefono" placeholder="809-556-5699" /></div>
+          <div class="field"><label for="cWhatsapp">WhatsApp (solo dígitos)</label><input type="text" id="cWhatsapp" placeholder="18095565699" /></div>
+        </div>
+        <div class="field"><label for="cDireccion">Dirección</label><input type="text" id="cDireccion" placeholder="Calle…" /></div>
+        <div class="grid2">
+          <div class="field"><label for="cEmail">Correo</label><input type="email" id="cEmail" placeholder="correo@dominio.com" /></div>
+          <div class="field"><label for="cInstagram">Instagram (URL)</label><input type="text" id="cInstagram" placeholder="https://instagram.com/…" /></div>
+        </div>
+        <div class="field"><label for="cFacebook">Facebook (URL)</label><input type="text" id="cFacebook" placeholder="https://facebook.com/…" /></div>
+        <div class="actions">
+          <button class="btn btn--solid" type="button" id="guardarContacto">Guardar contacto</button>
+          <p class="msg" id="contactoMsg" role="status"></p>
+        </div>
+      </section>
+
+      <!-- e) Tema por defecto -->
+      <section class="card" aria-labelledby="tTema">
+        <h2 id="tTema">Tema por defecto del sitio</h2>
+        <p class="hint">Se aplica a quien no haya elegido un tema todavía.</p>
+        <div class="grid2">
+          <div class="field">
+            <label for="temaDefecto">Tema</label>
+            <select id="temaDefecto">
+              <option value="esmeralda">Esmeralda</option>
+              <option value="costa-azul">Costa Azul</option>
+              <option value="carbon-oro">Carbón &amp; Oro</option>
+              <option value="editorial-blanco">Editorial Blanco</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--solid" type="button" id="guardarTema">Guardar tema</button>
+          <p class="msg" id="temaMsg" role="status"></p>
+        </div>
+      </section>
+      </div><!-- /viewAjustes -->
+    </main>
+  </section>
+
+  <script src="admin.js"></script>
+</body>
+</html>
