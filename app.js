@@ -25,7 +25,13 @@ let accionPendiente = null;
  * Lanza solo ante errores de red; los errores HTTP vienen en el objeto.
  */
 async function pedir(url, opciones = {}) {
-  const res = await fetch(url, {
+  // Si hay un backend remoto configurado (apiBase, p.ej. el túnel), enruta ahí
+  // todas las llamadas /api e incluye la cookie de sesión (credentials).
+  let base = '';
+  try { base = localStorage.getItem('apiBase') || ''; } catch (e) { /* storage bloqueado */ }
+  const full = (base && typeof url === 'string' && url.indexOf('/api') === 0) ? base + url : url;
+  const res = await fetch(full, {
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     ...opciones,
   });
@@ -1999,35 +2005,41 @@ cargarSesion();   // y lo corrige cuando responde /api/yo
 cargarConfig().then(cargarCatalogo);
 cargarResenas();  // testimonios públicos (el formulario lo pinta renderCuenta según sesión)
 
-/* ===== Prueba de conexión a la BD vía túnel =====
-   Se activa SOLO si se abre el demo con ?api=<URL-del-túnel>, p. ej.:
-   https://abylachuela.github.io/las-canas-web-demo/?api=https://xxxx.trycloudflare.com
-   Llama a <URL>/api/salud (CORS abierto) y reporta el estado de la base de datos. */
+/* ===== Backend remoto por túnel =====
+   Abre el demo con ?api=<URL-del-túnel> para que TODAS las llamadas /api vayan a
+   ese backend (ver pedir()) y así emular el sitio real (frontend en el hosting +
+   backend/BD en la LAN por el túnel). Se guarda en localStorage y persiste.
+   ?api=off  borra la configuración y vuelve al modo estático. */
 (function () {
   try {
-    var api = new URLSearchParams(location.search).get('api');
+    var qp = new URLSearchParams(location.search).get('api');
+    if (qp != null) {
+      qp = qp.trim().replace(/\/+$/, '');
+      try {
+        if (qp === '' || qp.toLowerCase() === 'off') localStorage.removeItem('apiBase');
+        else if (/^https?:\/\//.test(qp)) localStorage.setItem('apiBase', qp);
+      } catch (e) {}
+    }
+    var api = '';
+    try { api = localStorage.getItem('apiBase') || ''; } catch (e) {}
     if (!api) return;
-    api = api.trim().replace(/\/+$/, '');
-    if (!/^https?:\/\//.test(api)) return;
     var b = document.createElement('div');
     b.setAttribute('role', 'status');
     b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;padding:11px 16px;font:600 14px/1.45 Inter,system-ui,sans-serif;text-align:center;color:#fff;background:#6b6b6b';
-    b.textContent = 'Probando conexión a la base de datos por el túnel…';
+    b.textContent = 'Conectando con el servidor por el túnel…';
     var add = function () { (document.body || document.documentElement).appendChild(b); };
     if (document.body) add(); else document.addEventListener('DOMContentLoaded', add);
     var set = function (bg, txt) { b.style.background = bg; b.textContent = txt; };
     fetch(api + '/api/salud', { cache: 'no-store' })
       .then(function (r) {
-        if (r.ok) {
-          return r.json().then(function (d) {
-            if (d && d.ok) set('#153e33', '✅ Base de datos conectada remotamente por el túnel.');
-            else set('#9a6b00', '⚠️ Se alcanzó el servidor, pero la base de datos no respondió.');
-          });
-        }
-        set('#9a6b00', '⚠️ Se alcanzó el servidor por el túnel, pero la base de datos no respondió (HTTP ' + r.status + ').');
+        if (r.ok) return r.json().then(function (d) {
+          if (d && d.ok) set('#153e33', '✅ Conectado al backend y a la base de datos por el túnel (modo backend remoto).');
+          else set('#9a6b00', '⚠️ Backend alcanzado, pero la base de datos no respondió.');
+        });
+        set('#9a6b00', '⚠️ Backend alcanzado por el túnel, pero respondió HTTP ' + r.status + '.');
       })
       .catch(function () {
-        set('#8a1f1f', '❌ No se pudo alcanzar el túnel (' + api + '). ¿cloudflared y la app en :8099 están corriendo?');
+        set('#8a1f1f', '❌ No se pudo alcanzar el backend (' + api + '). ¿cloudflared y la app están corriendo?');
       });
   } catch (e) {}
 })();
