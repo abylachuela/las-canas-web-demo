@@ -302,17 +302,31 @@ function urlActivoGaleria(p) {
   return base ? base.replace(/\/$/, '') + '/' + p : p;
 }
 function mensajeGaleria(txt, tipo) { const el = $('galeriaMsg'); if (el) { el.textContent = txt; el.className = 'msg' + (tipo ? ' ' + tipo : ''); } }
+// Fotos fijas de la galería del sitio (mismas que #galeria-grid en index.html).
+const GALERIA_BASE = [
+  'assets/hero.jpg', 'assets/recepcion.jpg', 'assets/fachada-logo.jpg', 'assets/habitacion-doble.jpg',
+  'assets/piscina-panoramica.jpg', 'assets/suite.jpg', 'assets/ubicacion.jpg', 'assets/restaurante.jpg',
+  'assets/habitacion-sencilla.jpg', 'assets/lobby.jpg', 'assets/aparta-hotel.jpg', 'assets/piscina.jpg',
+  'assets/habitacion-02.jpg', 'assets/entrada.jpg', 'assets/aparta-comedor.jpg', 'assets/aparta-habitacion.jpg',
+  'assets/aparta-cocina.jpg', 'assets/habitacion-03.jpg',
+];
 async function cargarGaleriaAdmin() {
   const wrap = $('galeriaAdminWrap');
   if (!wrap) return;
+  const thumbsBase = GALERIA_BASE.map((p) => `<div class="promo__foto"><img src="${esc(p)}" alt="Foto del sitio" loading="lazy"></div>`).join('');
+  let thumbsExtra = '', nExtra = 0, aviso = 'Todavía no agregaste fotos. Las que subas se podrán eliminar aquí.';
   try {
     const { data } = await pedir('/api/galeria');
     const fotos = (data && data.fotos) || [];
-    wrap.innerHTML = fotos.length
-      ? fotos.map((f) => `<div class="promo__foto"><img src="${esc(urlActivoGaleria(f.foto))}" alt="Foto de galería"><button type="button" class="promo__foto-x" data-id="${esc(f.id)}" aria-label="Eliminar foto">×</button></div>`).join('')
-      : '<p class="msg">Todavía no hay fotos extra en la galería.</p>';
-    wrap.querySelectorAll('.promo__foto-x').forEach((b) => b.addEventListener('click', () => eliminarFotoGaleria(b.dataset.id)));
-  } catch { wrap.innerHTML = '<p class="msg err">Error al cargar la galería.</p>'; }
+    nExtra = fotos.length;
+    thumbsExtra = fotos.map((f) => `<div class="promo__foto"><img src="${esc(urlActivoGaleria(f.foto))}" alt="Foto agregada" loading="lazy"><button type="button" class="promo__foto-x" data-id="${esc(f.id)}" aria-label="Eliminar foto">×</button></div>`).join('');
+  } catch { aviso = 'No se pudieron cargar las fotos agregadas.'; }
+  wrap.innerHTML =
+    `<p class="galeria-sub">Fotos actuales del sitio (${GALERIA_BASE.length})</p>` +
+    `<div class="promo__fotos">${thumbsBase}</div>` +
+    `<p class="galeria-sub">Fotos que agregaste (${nExtra})</p>` +
+    `<div class="promo__fotos">${thumbsExtra || '<p class="msg">' + esc(aviso) + '</p>'}</div>`;
+  wrap.querySelectorAll('.promo__foto-x').forEach((b) => b.addEventListener('click', () => eliminarFotoGaleria(b.dataset.id)));
 }
 async function eliminarFotoGaleria(id) {
   if (!confirm('¿Eliminar esta foto de la galería? Esta acción no se puede deshacer.')) return;
