@@ -1978,6 +1978,35 @@ if (galeriaGrid) {
   });
 }
 
+// Fotos extra de la galería subidas desde el admin (/api/galeria).
+function urlActivoGaleria(p) {
+  if (!p || /^https?:\/\//.test(p)) return p;
+  let base = '';
+  try { base = (typeof API_DEFECTO !== 'undefined' ? (localStorage.getItem('apiBase') || API_DEFECTO) : '') || ''; }
+  catch { base = (typeof API_DEFECTO !== 'undefined' ? API_DEFECTO : '') || ''; }
+  return base ? base.replace(/\/$/, '') + '/' + p : p;
+}
+async function cargarGaleriaExtra() {
+  if (!galeriaGrid) return;
+  try {
+    const { data } = await pedir('/api/galeria');
+    if (!data || !data.ok || !Array.isArray(data.fotos) || !data.fotos.length) return;
+    data.fotos.forEach((f) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'gallery__item tilt3d';
+      const img = document.createElement('img');
+      img.src = urlActivoGaleria(f.foto);
+      img.alt = 'Foto del Hotel Las Cañas';
+      img.loading = 'lazy';
+      btn.appendChild(img);
+      galeriaGrid.appendChild(btn);
+    });
+    if (window.Tilt3D && typeof window.Tilt3D.scan === 'function') window.Tilt3D.scan();
+  } catch { /* la galería extra es opcional */ }
+}
+cargarGaleriaExtra();
+
 /* ============================ Selector de tema ============================
    4 temas con variables CSS (html[data-theme]). La elección se guarda en
    localStorage y se aplica al cargar (el <head> ya la aplicó para evitar

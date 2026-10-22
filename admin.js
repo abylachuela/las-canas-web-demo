@@ -69,6 +69,7 @@ function mostrarPanel() {
   $('panelScreen').hidden = false;
   cargarConfig();
   cargarCatalogo();
+  cargarGaleriaAdmin();
   mostrarVista('viewReservas', { foco: false });
 }
 
@@ -291,6 +292,62 @@ function subirFoto(id, input, thumb, err) {
   lector.onerror = () => { err.textContent = 'No se pudo leer el archivo.'; };
   lector.readAsDataURL(file);
 }
+
+/* ----- Galería del sitio ----- */
+function urlActivoGaleria(p) {
+  if (!p || /^https?:\/\//.test(p)) return p;
+  let base = '';
+  try { base = (typeof API_DEFECTO !== 'undefined' ? (localStorage.getItem('apiBase') || API_DEFECTO) : '') || ''; }
+  catch { base = (typeof API_DEFECTO !== 'undefined' ? API_DEFECTO : '') || ''; }
+  return base ? base.replace(/\/$/, '') + '/' + p : p;
+}
+function mensajeGaleria(txt, tipo) { const el = $('galeriaMsg'); if (el) { el.textContent = txt; el.className = 'msg' + (tipo ? ' ' + tipo : ''); } }
+async function cargarGaleriaAdmin() {
+  const wrap = $('galeriaAdminWrap');
+  if (!wrap) return;
+  try {
+    const { data } = await pedir('/api/galeria');
+    const fotos = (data && data.fotos) || [];
+    wrap.innerHTML = fotos.length
+      ? fotos.map((f) => `<div class="promo__foto"><img src="${esc(urlActivoGaleria(f.foto))}" alt="Foto de galería"><button type="button" class="promo__foto-x" data-id="${esc(f.id)}" aria-label="Eliminar foto">×</button></div>`).join('')
+      : '<p class="msg">Todavía no hay fotos extra en la galería.</p>';
+    wrap.querySelectorAll('.promo__foto-x').forEach((b) => b.addEventListener('click', () => eliminarFotoGaleria(b.dataset.id)));
+  } catch { wrap.innerHTML = '<p class="msg err">Error al cargar la galería.</p>'; }
+}
+async function eliminarFotoGaleria(id) {
+  if (!confirm('¿Eliminar esta foto de la galería? Esta acción no se puede deshacer.')) return;
+  try {
+    const { status, data } = await pedir('/api/admin/galeria/eliminar', { method: 'POST', body: JSON.stringify({ id }) });
+    if (status === 401) { manejar401(); return; }
+    if (data && data.ok) { mensajeGaleria('Foto eliminada.', 'ok'); cargarGaleriaAdmin(); }
+    else mensajeGaleria((data && data.error) || 'No se pudo eliminar.', 'err');
+  } catch { mensajeGaleria('Error de conexión.', 'err'); }
+}
+(() => {
+  const inp = $('galeriaAdd');
+  if (!inp) return;
+  inp.addEventListener('change', async () => {
+    const files = Array.from(inp.files || []);
+    inp.value = '';
+    if (!files.length) return;
+    let ok = 0;
+    mensajeGaleria('Subiendo…', '');
+    for (const f of files) {
+      if (!/^image\/(png|jpe?g|webp)$/.test(f.type)) { mensajeGaleria(`"${f.name}": usa PNG, JPG o WEBP.`, 'warn'); continue; }
+      if (f.size > MAX_BYTES) { mensajeGaleria(`"${f.name}" supera 6 MB.`, 'warn'); continue; }
+      const dataUrl = await leerComoDataURL(f);
+      if (!dataUrl) continue;
+      try {
+        const { status, data } = await pedir('/api/admin/galeria', { method: 'POST', body: JSON.stringify({ imagen: dataUrl }) });
+        if (status === 401) { manejar401(); return; }
+        if (data && data.ok) ok++;
+        else mensajeGaleria((data && data.error) || 'No se pudo subir una foto.', 'err');
+      } catch { mensajeGaleria('Error de conexión al subir.', 'err'); }
+    }
+    if (ok) mensajeGaleria(`${ok} foto(s) agregada(s).`, 'ok');
+    cargarGaleriaAdmin();
+  });
+})();
 
 /* =========================================================================
    Secciones ampliadas: Reservas, Estadísticas, Clientes y Promociones.

@@ -311,6 +311,17 @@
         <div class="rooms" id="rooms"><p class="msg" id="roomsMsg">Cargando…</p></div>
       </section>
 
+      <!-- b2) Galería del sitio -->
+      <section class="card" aria-labelledby="tGaleria">
+        <div class="card__head">
+          <h2 id="tGaleria">Galería del sitio</h2>
+          <div class="room__file"><span class="btn btn--ghost btn--sm">Agregar fotos<input type="file" id="galeriaAdd" accept="image/png,image/jpeg,image/webp" multiple aria-label="Agregar fotos a la galería" /></span></div>
+        </div>
+        <p class="hint">Fotos que se muestran en la galería “Un vistazo al hotel” del sitio (PNG, JPG o WEBP, máx. 6 MB c/u). Se agregan al final de la galería.</p>
+        <p class="msg" id="galeriaMsg" role="status" aria-live="polite"></p>
+        <div class="promo__fotos" id="galeriaAdminWrap"><p class="msg">Cargando…</p></div>
+      </section>
+
       <!-- c) Tarifas -->
       <section class="card" aria-labelledby="tTarifas">
         <h2 id="tTarifas">Tarifas (RD$ por noche)</h2>
@@ -364,6 +375,6 @@
     </main>
   </section>
 
-  <script src="admin.js?v=20261021i"></script>
+  <script src="admin.js?v=20261021k"></script>
 </body>
 </html>
