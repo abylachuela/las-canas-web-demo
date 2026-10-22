@@ -334,7 +334,7 @@ async function cargarReservas() {
       `<td data-th="Llegada">${fmtFecha(x.fecha)}</td>` +
       `<td data-th="Estado">${badgeEstado(x.estado)}</td>` +
       `<td data-th="Total">${x.total != null ? esc(fmtMoneda(x.total)) : '—'}</td>` +
-      `<td data-th="Creado">${fmtFecha(x.creado)}</td></tr>`).join('');
+      `<td data-th="Creado">${fmtFechaHora(x.creado)}</td></tr>`).join('');
     wrap.innerHTML =
       `<table class="table"><thead><tr>` +
       `<th scope="col">N.º</th><th scope="col">Cliente</th><th scope="col">Tipo</th>` +
