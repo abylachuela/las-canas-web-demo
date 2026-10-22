@@ -398,7 +398,7 @@ async function cargarClientes() {
         `<td data-th="Cédula">${esc(c.cedula || '—')}</td>` +
         `<td data-th="Dirección">${esc(c.direccion || '—')}</td>` +
         `<td data-th="Promos">${promos ? '<span class="badge badge--ok">Sí</span>' : '<span class="badge badge--off">No</span>'}</td>` +
-        `<td data-th="Registrado">${fmtFecha(c.creado)}</td>` +
+        `<td data-th="Registrado">${fmtFechaHora(c.creado)}</td>` +
         `</tr>`;
     }).join('');
     wrap.innerHTML =
