@@ -391,7 +391,7 @@ async function cargarClientes() {
       const promos = Number(c.acepta_promos) === 1;
       const marcado = seleccionados.has(c.email) ? ' checked' : '';
       return `<tr>` +
-        `<td data-th="Elegir"><input type="checkbox" class="cliente-sel" value="${esc(c.email)}"${marcado} aria-label="Seleccionar ${esc(c.email)}"></td>` +
+        `<td data-th="Elegir"><input type="checkbox" class="cliente-sel" value="${esc(c.email)}" data-id="${esc(String(c.id))}"${marcado} aria-label="Seleccionar ${esc(c.email)}"></td>` +
         `<td data-th="Nombre">${esc(c.nombre || '—')}</td>` +
         `<td data-th="Correo">${esc(c.email || '—')}</td>` +
         `<td data-th="Teléfono">${esc(c.telefono || '—')}</td>` +
@@ -415,6 +415,36 @@ async function cargarClientes() {
   } catch {
     wrap.innerHTML = '<p class="msg err">Error de conexión al cargar los clientes.</p>';
   }
+}
+
+/* ----- Eliminar clientes seleccionados ----- */
+function mensajeAccionClientes(texto, tipo) {
+  const el = $('clientesAccionMsg');
+  if (!el) return;
+  el.textContent = texto; el.className = 'msg' + (tipo ? ' ' + tipo : '');
+}
+async function eliminarClientesSeleccionados() {
+  const checks = Array.from(document.querySelectorAll('.cliente-sel:checked'));
+  if (!checks.length) { mensajeAccionClientes('Selecciona al menos un cliente para eliminar.', 'warn'); return; }
+  const ids = checks.map((cb) => Number(cb.dataset.id)).filter((n) => Number.isInteger(n) && n > 0);
+  if (!ids.length) { mensajeAccionClientes('No se pudo identificar los clientes seleccionados.', 'err'); return; }
+  const nombres = checks.slice(0, 6).map((cb) => ((cb.closest('tr').querySelector('[data-th="Nombre"]') || {}).textContent || '').trim()).filter(Boolean);
+  const detalle = nombres.join(', ') + (checks.length > nombres.length ? '…' : '');
+  if (!confirm(`¿Eliminar ${ids.length} cliente(s)? Esta acción no se puede deshacer.\n\n${detalle}`)) return;
+  const btn = $('eliminarClientes'); cargando(btn, true); mensajeAccionClientes('', '');
+  try {
+    const { status, data } = await pedir('/api/admin/clientes/eliminar', { method: 'POST', body: JSON.stringify({ ids }) });
+    if (status === 401) { manejar401(); return; }
+    if (data && data.ok) {
+      checks.forEach((cb) => seleccionados.delete(cb.value)); // limpia selección de promoción
+      mensajeAccionClientes(`${data.eliminados} cliente(s) eliminado(s).`, 'ok');
+      await cargarClientes();
+    } else {
+      mensajeAccionClientes((data && data.error) || 'No se pudieron eliminar los clientes.', 'err');
+    }
+  } catch {
+    mensajeAccionClientes('Error de conexión al eliminar.', 'err');
+  } finally { cargando(btn, false); }
 }
 
 /* ----- Promociones ----- */
@@ -458,6 +488,7 @@ function mensaje_promo(texto, tipo) {
 $('recargarReservas').addEventListener('click', cargarReservas);
 $('recargarEstadisticas').addEventListener('click', cargarEstadisticas);
 $('recargarClientes').addEventListener('click', cargarClientes);
+$('eliminarClientes').addEventListener('click', eliminarClientesSeleccionados);
 
 /* =========================================================================
    Secciones nuevas: Correo, WhatsApp y Reseñas.

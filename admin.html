@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" />
-  <link rel="stylesheet" href="admin.css?v=20261021a" />
+  <link rel="stylesheet" href="admin.css?v=20261021f" />
 </head>
 <body>
   <!-- ===== Pantalla de inicio de sesión ===== -->
@@ -85,9 +85,13 @@
         <section class="card" aria-labelledby="tClientes">
           <div class="card__head">
             <h2 id="tClientes">Clientes</h2>
-            <button class="btn btn--ghost btn--sm" type="button" id="recargarClientes">Recargar</button>
+            <div class="card__actions">
+              <button class="btn btn--danger btn--sm" type="button" id="eliminarClientes">Eliminar seleccionados</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="recargarClientes">Recargar</button>
+            </div>
           </div>
-          <p class="hint">Marca clientes para enviarles una promoción específica desde la sección Promociones.</p>
+          <p class="hint">Marca clientes para enviarles una promoción (sección Promociones) o para eliminarlos con “Eliminar seleccionados”.</p>
+          <p class="msg" id="clientesAccionMsg" role="status" aria-live="polite"></p>
           <div class="tablewrap" id="clientesWrap"><p class="msg" id="clientesMsg">Cargando…</p></div>
         </section>
       </div>
@@ -354,6 +358,6 @@
     </main>
   </section>
 
-  <script src="admin.js?v=20261021a"></script>
+  <script src="admin.js?v=20261021f"></script>
 </body>
 </html>
