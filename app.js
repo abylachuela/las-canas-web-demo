@@ -360,6 +360,14 @@ const I18N = {
     'account.mis': 'Mis reservas',
     'account.salir': 'Salir',
     'account.ingresar': 'Ingresar',
+    'account.cambiar': 'Cambiar contraseña',
+    'cpass.title': 'Cambiar contraseña',
+    'cpass.sub': 'Actualiza tu contraseña. Te enviaremos un correo de confirmación.',
+    'cpass.actual': 'Contraseña actual',
+    'cpass.nueva': 'Nueva contraseña',
+    'cpass.confirmar': 'Repite la nueva contraseña',
+    'cpass.submit': 'Guardar contraseña',
+    'cpass.ok': 'Contraseña actualizada. Te enviamos un correo de confirmación.',
     /* Catálogo */
     'catalogo.error': 'No se pudo cargar el catálogo.',
     'card.sample': '(imagen de muestra)',
@@ -650,6 +658,14 @@ const I18N = {
     'account.mis': 'My bookings',
     'account.salir': 'Sign out',
     'account.ingresar': 'Sign in',
+    'account.cambiar': 'Change password',
+    'cpass.title': 'Change password',
+    'cpass.sub': 'Update your password. We will email you a confirmation.',
+    'cpass.actual': 'Current password',
+    'cpass.nueva': 'New password',
+    'cpass.confirmar': 'Repeat the new password',
+    'cpass.submit': 'Save password',
+    'cpass.ok': 'Password updated. We sent you a confirmation email.',
     /* Catalog */
     'catalogo.error': 'The catalog could not be loaded.',
     'card.sample': '(sample image)',
@@ -816,6 +832,7 @@ function plantillaCuenta() {
     return `
       <span class="account__hi">${hola}</span>
       <button type="button" class="btn btn--ghost btn--sm" data-misreservas>${escapar(t('account.mis'))}</button>
+      <button type="button" class="btn btn--ghost btn--sm" data-cambiarpass>${escapar(t('account.cambiar'))}</button>
       <button type="button" class="btn btn--ghost btn--sm" data-logout>${escapar(t('account.salir'))}</button>`;
   }
   // Clientes que regresan: solo "Ingresar" (el registro ocurre al reservar).
@@ -834,6 +851,8 @@ function renderCuenta() {
       b.addEventListener('click', () => { cerrarMenuMovil(); salir(); }));
     cont.querySelectorAll('[data-misreservas]').forEach((b) =>
       b.addEventListener('click', () => { cerrarMenuMovil(); abrirMisReservas(); }));
+    cont.querySelectorAll('[data-cambiarpass]').forEach((b) =>
+      b.addEventListener('click', () => { cerrarMenuMovil(); abrirCambiarPass(); }));
   });
   // "Cancelar reserva" solo tiene sentido con sesión iniciada: ocultarlo sin ella.
   ['openCancel', 'openCancelMobile'].forEach((id) => {
@@ -919,6 +938,57 @@ if ($('irRecuperar')) $('irRecuperar').addEventListener('click', async () => {
   } catch { msg.textContent = t('net.error'); msg.className = 'modal__msg err'; }
   finally { cargando(btn, false); }
 });
+
+// --- Cambiar contraseña (con sesión iniciada) ---
+let modalCpass = null;
+function abrirCambiarPass() {
+  if (!usuario) { abrirAuth(); return; }
+  if (!modalCpass) {
+    const wrap = document.createElement('div');
+    wrap.className = 'modal'; wrap.id = 'modalCpass'; wrap.hidden = true;
+    wrap.innerHTML =
+      '<div class="modal__backdrop" data-close></div>' +
+      '<div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="cpassTitle">' +
+        '<h2 class="modal__title" id="cpassTitle">' + escapar(t('cpass.title')) + '</h2>' +
+        '<p class="modal__sub">' + escapar(t('cpass.sub')) + '</p>' +
+        '<form class="mform" id="formCpass" novalidate>' +
+          '<div class="field"><label for="cpassActual">' + escapar(t('cpass.actual')) + '</label>' +
+            '<input type="password" id="cpassActual" autocomplete="current-password" required></div>' +
+          '<div class="field"><label for="cpassNueva">' + escapar(t('cpass.nueva')) + '</label>' +
+            '<input type="password" id="cpassNueva" autocomplete="new-password" required minlength="6"></div>' +
+          '<div class="field"><label for="cpassNueva2">' + escapar(t('cpass.confirmar')) + '</label>' +
+            '<input type="password" id="cpassNueva2" autocomplete="new-password" required minlength="6"></div>' +
+          '<button class="btn btn--solid modal__submit" type="submit" id="btnCpass">' + escapar(t('cpass.submit')) + '</button>' +
+          '<p class="modal__msg" id="cpassMsg" role="alert"></p>' +
+        '</form>' +
+      '</div>';
+    document.body.appendChild(wrap);
+    modalCpass = wrap;
+    wrap.querySelector('[data-close]').addEventListener('click', () => cerrarModal({ devolverFoco: false }));
+    $('formCpass').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const a = $('cpassActual'), n1 = $('cpassNueva'), n2 = $('cpassNueva2'), msg = $('cpassMsg');
+      msg.textContent = ''; msg.className = 'modal__msg';
+      if (n1.value.length < 6) { msg.textContent = t('err.min6'); msg.className = 'modal__msg err'; return; }
+      if (n1.value !== n2.value) { msg.textContent = t('reset.noCoincide'); msg.className = 'modal__msg err'; return; }
+      const btn = $('btnCpass'); cargando(btn, true);
+      try {
+        const { status, data } = await pedir('/api/cambiar-password', { method: 'POST', body: JSON.stringify({ actual: a.value, nueva: n1.value }) });
+        if (status === 401) { cerrarModal({ devolverFoco: false }); usuario = null; renderCuenta(); abrirAuth(); return; }
+        if (data && data.ok) {
+          msg.textContent = data.mensaje || t('cpass.ok'); msg.className = 'modal__msg ok';
+          a.value = n1.value = n2.value = '';
+          setTimeout(() => cerrarModal({ devolverFoco: false }), 1800);
+        } else { msg.textContent = (data && data.error) || t('net.error'); msg.className = 'modal__msg err'; }
+      } catch { msg.textContent = t('net.error'); msg.className = 'modal__msg err'; }
+      finally { cargando(btn, false); }
+    });
+  } else {
+    ['cpassActual', 'cpassNueva', 'cpassNueva2'].forEach((id) => { const el = $(id); if (el) el.value = ''; });
+    const m = $('cpassMsg'); if (m) { m.textContent = ''; m.className = 'modal__msg'; }
+  }
+  abrirModal(modalCpass, { foco: $('cpassActual') });
+}
 
 // --- Restablecer contraseña: se abre si la URL trae ?reset=TOKEN ---
 (function () {
