@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" />
-  <link rel="stylesheet" href="admin.css?v=20261021f" />
+  <link rel="stylesheet" href="admin.css?v=20261021g" />
 </head>
 <body>
   <!-- ===== Pantalla de inicio de sesión ===== -->
@@ -109,6 +109,12 @@
             <div class="field">
               <label for="promoMensaje">Mensaje</label>
               <textarea id="promoMensaje" rows="6" maxlength="5000" placeholder="Escribe el contenido de la promoción…"></textarea>
+            </div>
+            <div class="field">
+              <label for="promoFotos">Fotos (opcional)</label>
+              <input type="file" id="promoFotos" accept="image/png,image/jpeg,image/webp,image/gif" multiple />
+              <p class="hint">Hasta 6 imágenes (máx. 5 MB c/u). Se mostrarán dentro del correo.</p>
+              <div class="promo__fotos" id="promoFotosPrev"></div>
             </div>
             <fieldset class="group">
               <legend>Destinatarios</legend>
@@ -358,6 +364,6 @@
     </main>
   </section>
 
-  <script src="admin.js?v=20261021f"></script>
+  <script src="admin.js?v=20261021g"></script>
 </body>
 </html>

@@ -455,6 +455,32 @@ function actualizarContadorPromo() {
   el.textContent = n ? `${n} cliente${n > 1 ? 's' : ''} seleccionado${n > 1 ? 's' : ''}.` : 'Ningún cliente seleccionado todavía.';
 }
 
+/* ----- Fotos adjuntas de la promoción ----- */
+let fotosPromo = [];
+const PROMO_MAX_FOTOS = 6, PROMO_MAX_BYTES = 5 * 1024 * 1024;
+function leerComoDataURL(file) {
+  return new Promise((res) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => res(null); r.readAsDataURL(file); });
+}
+async function agregarFotosPromo(fileList) {
+  for (const f of Array.from(fileList || [])) {
+    if (fotosPromo.length >= PROMO_MAX_FOTOS) { mensaje_promo(`Máximo ${PROMO_MAX_FOTOS} fotos.`, 'warn'); break; }
+    if (!/^image\/(png|jpe?g|webp|gif)$/.test(f.type)) { mensaje_promo('Solo imágenes (PNG, JPG, WEBP, GIF).', 'warn'); continue; }
+    if (f.size > PROMO_MAX_BYTES) { mensaje_promo(`"${f.name}" supera 5 MB.`, 'warn'); continue; }
+    const dataUrl = await leerComoDataURL(f);
+    if (dataUrl) fotosPromo.push({ nombre: f.name, dataUrl });
+  }
+  renderFotosPromo();
+}
+function renderFotosPromo() {
+  const wrap = $('promoFotosPrev');
+  if (!wrap) return;
+  wrap.innerHTML = fotosPromo.map((f, i) =>
+    `<div class="promo__foto"><img src="${f.dataUrl}" alt="${esc(f.nombre)}"><button type="button" class="promo__foto-x" data-i="${i}" aria-label="Quitar ${esc(f.nombre)}">×</button></div>`
+  ).join('');
+  wrap.querySelectorAll('.promo__foto-x').forEach((b) => b.addEventListener('click', () => { fotosPromo.splice(Number(b.dataset.i), 1); renderFotosPromo(); }));
+}
+(() => { const inp = $('promoFotos'); if (inp) inp.addEventListener('change', async () => { await agregarFotosPromo(inp.files); inp.value = ''; }); })();
+
 $('promoForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const msg = $('promoMsg');
@@ -467,11 +493,12 @@ $('promoForm').addEventListener('submit', async (e) => {
     if (!seleccionados.size) { mensaje_promo('Selecciona al menos un cliente en la sección Clientes, o elige "Todos".', 'err'); return; }
     body.emails = Array.from(seleccionados);
   }
+  if (fotosPromo.length) body.fotos = fotosPromo.map((f) => f.dataUrl);
   const btn = $('enviarPromo'); cargando(btn, true); mensaje_promo('', '');
   try {
     const { status, data } = await pedir('/api/admin/promocion', { method: 'POST', body: JSON.stringify(body) });
     if (status === 401) { manejar401(); return; }
-    if (data && data.ok) { mensaje_promo(`Promoción enviada a ${data.enviados} de ${data.total} destinatario(s).`, 'ok'); return; }
+    if (data && data.ok) { mensaje_promo(`Promoción enviada a ${data.enviados} de ${data.total} destinatario(s).`, 'ok'); fotosPromo = []; renderFotosPromo(); return; }
     // "SMTP no configurado" y similares: es un aviso esperado, no un fallo de la app.
     const err = (data && data.error) || 'No se pudo enviar la promoción.';
     mensaje_promo(err, /smtp/i.test(err) ? 'warn' : 'err');

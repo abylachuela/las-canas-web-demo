@@ -45,6 +45,11 @@ h1, h2 { font-family: var(--font-head); font-weight: 500; letter-spacing: -.01em
 .btn--danger { background: transparent; color: #b4232a; border-color: color-mix(in srgb, #b4232a 45%, transparent); }
 .btn--danger:hover { background: #b4232a; color: #fff; border-color: #b4232a; }
 .card__actions { display: inline-flex; gap: .5rem; flex-wrap: wrap; }
+.promo__fotos { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+.promo__foto { position: relative; width: 84px; height: 84px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.promo__foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.promo__foto-x { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: rgba(0,0,0,.6); color: #fff; font-size: 14px; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.promo__foto-x:hover { background: #b4232a; }
 
 /* Campos */
 .field { display: flex; flex-direction: column; gap: .35rem; }
