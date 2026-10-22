@@ -238,7 +238,7 @@ img, svg { display: block; max-width: 100%; }
 .brand__logo--oscuro { display: none; }
 :root[data-theme="carbon-oro"] .brand__logo--claro { display: none; }
 :root[data-theme="carbon-oro"] .brand__logo--oscuro { display: block; }
-.foot__brand .brand__logo { height: 62px; }
+.foot__brand .brand__logo { height: 50px; }
 
 .nav__links { display: flex; gap: 1.4rem; margin-left: .5rem; font-size: .9rem; color: var(--muted); }
 .nav__links a { position: relative; padding: .2rem 0; }
@@ -257,8 +257,8 @@ img, svg { display: block; max-width: 100%; }
 .account__hi { font-size: .88rem; color: var(--muted); max-width: 12ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .account__hi strong { color: var(--ink); font-weight: 600; }
 
-/* ===== Selector de tema (oculto: se conserva el markup para app.js) ===== */
-.theme { position: relative; display: none; }
+/* ===== Selector de tema ===== */
+.theme { position: relative; }
 .theme__btn {
   display: inline-flex; align-items: center; gap: .4rem; cursor: pointer;
   font: inherit; font-size: .85rem; font-weight: 500; color: var(--muted);
@@ -535,22 +535,39 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* =========================== Pie =========================== */
-.foot { border-top: 1px solid var(--line); background: var(--paper); }
+/* ===== Pie oscuro (marca) estilo compacto ===== */
+.foot { background: var(--brand); color: #ffffffcc; border-top: 2px solid color-mix(in srgb, var(--gold) 55%, transparent); }
 .foot__inner {
-  max-width: var(--maxw); margin: 0 auto; padding: clamp(2rem, 4vw, 3rem) var(--gutter) 1.6rem;
-  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.6rem;
+  max-width: var(--maxw); margin: 0 auto; padding: clamp(.85rem, 2vw, 1.25rem) var(--gutter) .7rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .9rem;
 }
 .foot__brand .brand__name { font-size: 1.3rem; }
-.foot__motto { color: var(--muted); font-family: var(--font-head); font-style: italic; margin-top: .5rem; }
-.foot__social { display: flex; gap: .6rem; margin-top: 1rem; }
-.foot__social a { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); transition: color .18s ease, border-color .18s ease, transform .18s ease; }
-.foot__social a:hover { color: var(--brand); border-color: var(--brand); transform: translateY(-2px); }
-.foot__col h4 { font-size: .74rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin-bottom: .7rem; font-family: var(--font-body); font-weight: 700; }
-.foot__col p { margin-bottom: .35rem; font-size: .92rem; color: var(--muted); }
-.foot__col a:hover { color: var(--brand); }
-.foot__bar { border-top: 1px solid var(--line); }
-.foot__lang { display: flex; justify-content: center; padding: 1.1rem var(--gutter) .1rem; }
-.foot__bar p { max-width: var(--maxw); margin: 0 auto; padding: 1rem var(--gutter); font-size: .82rem; color: var(--muted); text-align: center; }
+.foot .brand__logo--claro { display: none; }
+.foot .brand__logo--oscuro { display: block; }
+.foot__motto { color: #ffffffb3; font-family: var(--font-head); font-style: italic; margin-top: .35rem; font-size: .95rem; }
+.foot__controls { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+.foot__social { display: flex; gap: .6rem; }
+.foot__controls .foot__social { margin-top: 0; }
+.foot__social a { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #ffffff33; border-radius: 10px; color: #ffffffcc; transition: color .18s ease, border-color .18s ease, transform .18s ease; }
+.foot__social a:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.foot .lang { border-color: #ffffff33; }
+.foot .lang__opt { color: #ffffffcc; }
+.foot .lang__opt:hover { color: #fff; }
+.foot .lang__opt[aria-pressed="true"] { background: var(--gold); color: var(--brand); }
+.foot .theme { position: relative; }
+.foot .theme__btn { color: #ffffffcc; border-color: #ffffff33; }
+.foot .theme__btn:hover { color: #fff; border-color: var(--gold); }
+.foot .theme__menu { top: auto; bottom: calc(100% + .5rem); right: auto; left: 0; }
+.foot__col h4 { font-size: .74rem; text-transform: uppercase; letter-spacing: .14em; color: #ffffffa6; font-family: var(--font-body); font-weight: 700; position: relative; padding-bottom: .3rem; margin-bottom: .35rem; }
+.foot__col h4::after { content: ""; position: absolute; left: 0; bottom: 0; width: 26px; height: 2px; background: var(--gold); border-radius: 2px; }
+.foot__line { display: flex; align-items: flex-start; gap: .5rem; margin: 0 0 .1rem; font-size: .9rem; color: #ffffffcc; line-height: 1.3; }
+.foot__line:last-child { margin-bottom: 0; }
+.foot__line svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--gold); margin-top: .15rem; }
+.foot__line a:hover { color: var(--gold); }
+.foot__col a:hover { color: var(--gold); }
+.foot__bar { padding: .4rem var(--gutter) .6rem; text-align: center; }
+.foot__copy { font-size: .82rem; color: #ffffff80; margin: 0 auto .25rem; text-align: center; line-height: 1.3; }
+.foot__bar .foot__legal { justify-content: center; margin: 0 auto; }
 
 /* =========================== Modales =========================== */
 .modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 1rem; }
@@ -833,7 +850,7 @@ img, svg { display: block; max-width: 100%; }
 /* Enlaces legales en el pie */
 .foot__legal { display: flex; flex-wrap: wrap; gap: .3rem .9rem; justify-content: center; margin-top: .5rem; }
 .foot__legal a { color: inherit; opacity: .85; text-decoration: none; font-size: .85rem; }
-.foot__legal a:hover { opacity: 1; text-decoration: underline; }
+.foot__legal a:hover { opacity: 1; text-decoration: underline; color: var(--gold); }
 
 /* =========================================================================
    Ajustes de UX avanzados (solo frontend, compatibles con CSP estricta).
