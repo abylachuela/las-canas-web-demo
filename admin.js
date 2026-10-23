@@ -307,7 +307,7 @@ const GALERIA_BASE = [
   'assets/hero.jpg', 'assets/recepcion.jpg', 'assets/fachada-logo.jpg', 'assets/habitacion-doble.jpg',
   'assets/piscina-panoramica.jpg', 'assets/suite.jpg', 'assets/ubicacion.jpg', 'assets/restaurante.jpg',
   'assets/habitacion-sencilla.jpg', 'assets/lobby.jpg', 'assets/aparta-hotel.jpg', 'assets/piscina.jpg',
-  'assets/habitacion-02.jpg', 'assets/entrada.jpg', 'assets/aparta-comedor.jpg', 'assets/aparta-habitacion.jpg',
+  'assets/aparta-comedor.jpg', 'assets/aparta-habitacion.jpg',
   'assets/aparta-cocina.jpg', 'assets/habitacion-03.jpg',
 ];
 async function cargarGaleriaAdmin() {

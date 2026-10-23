@@ -7,6 +7,13 @@
     "foto": "assets/habitacion-sencilla.jpg"
   },
   {
+    "id": "ejecutiva",
+    "nombre": "Ejecutiva",
+    "tipo": "Ejecutiva",
+    "descripcion": "Habitación ejecutiva con un plus de confort.",
+    "foto": "assets/habitacion-03.jpg"
+  },
+  {
     "id": "doble",
     "nombre": "Doble",
     "tipo": "Doble",
@@ -17,7 +24,14 @@
     "id": "aparta-hotel",
     "nombre": "Aparta Hotel",
     "tipo": "Aparta Hotel",
-    "descripcion": "Comodidades de apartamento para estancias más largas.",
+    "descripcion": "Cocina completa, sala y comedor para estancias más largas.",
     "foto": "assets/aparta-hotel.jpg"
+  },
+  {
+    "id": "aparta-hotel-2",
+    "nombre": "Aparta Hotel 2 Habitaciones",
+    "tipo": "Aparta Hotel 2 Habitaciones",
+    "descripcion": "Dos habitaciones, hasta 4 personas, con cocina completa, sala y comedor.",
+    "foto": "assets/aparta-habitacion.jpg"
   }
 ]

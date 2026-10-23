@@ -11,14 +11,14 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
 
   <!-- Aplica el tema antes de pintar (script externo, compatible con CSP estricta). -->
-  <script src="theme-init.js?v=20261021e"></script>
+  <script src="theme-init.js?v=20261021n"></script>
 
   <!-- Pares tipográficos de los temas (serif de títulos + sans de cuerpo). -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" />
 
-  <link rel="stylesheet" href="styles.css?v=20261021e" />
+  <link rel="stylesheet" href="styles.css?v=20261021n" />
 </head>
 <body>
   <!-- Enlace de salto para accesibilidad por teclado -->
@@ -241,8 +241,6 @@
           <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/lobby.jpg" alt="Sala de espera del lobby" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-hotel.jpg" alt="Sala del Aparta Hotel" data-i18n-alt="gal.aparta" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/piscina.jpg" alt="Piscina con jacuzzi del hotel" data-i18n-alt="gal.jacuzzi" loading="lazy" /></button>
-          <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-02.jpg" alt="Habitación con dos camas" loading="lazy" /></button>
-          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/entrada.jpg" alt="Entrada principal del hotel" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-comedor.jpg" alt="Comedor del Aparta Hotel" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-habitacion.jpg" alt="Dormitorio del Aparta Hotel" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-cocina.jpg" alt="Cocina del Aparta Hotel" loading="lazy" /></button>
@@ -623,7 +621,13 @@
         <p class="success__num"><span data-i18n="ok.num">Reserva N.º</span> <strong id="okNumero"></strong></p>
         <p class="success__note" id="okDetalle"></p>
         <p class="success__pay" id="okPago"></p>
+        <p class="success__horario" data-i18n="ok.horario">Entrada (Check-in): 3:00 p.m. · Salida (Check-out): 12:00 p.m.</p>
         <p class="success__keep" data-i18n="ok.keep">Guarda tu número para cancelar si lo necesitas.</p>
+        <div class="success__firma">
+          <p data-i18n="ok.firma1">Gracias por preferirnos</p>
+          <p class="success__firma-marca">Hotel Las Cañas</p>
+          <p data-i18n="ok.firma3">¡Nos sentimos en familia!</p>
+        </div>
         <button class="btn btn--ghost" type="button" id="okCerrar" data-i18n="ok.done">Listo</button>
       </div>
     </div>
@@ -686,7 +690,7 @@
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
   </button>
 
-  <script src="app.js?v=20261021k"></script>
-  <script src="tilt3d.js?v=20261021e" defer></script>
+  <script src="app.js?v=20261021n"></script>
+  <script src="tilt3d.js?v=20261021n" defer></script>
 </body>
 </html>
