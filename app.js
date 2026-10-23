@@ -222,7 +222,7 @@ const I18N = {
     'rev.stars4': '4 estrellas',
     'rev.stars5': '5 estrellas',
     /* Pie */
-    'foot.motto': 'Nos sentimos en familia.',
+    'foot.motto': 'Nos sentimos en familia!',
     'foot.socialAria': 'Redes sociales',
     'foot.contacto': 'Contacto',
     'foot.ubicacion': 'Ubicación',
@@ -523,7 +523,7 @@ const I18N = {
     'rev.stars4': '4 stars',
     'rev.stars5': '5 stars',
     /* Footer */
-    'foot.motto': 'We feel like family.',
+    'foot.motto': 'We feel like family!',
     'foot.socialAria': 'Social media',
     'foot.contacto': 'Contact',
     'foot.ubicacion': 'Location',

@@ -11,14 +11,14 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
 
   <!-- Aplica el tema antes de pintar (script externo, compatible con CSP estricta). -->
-  <script src="theme-init.js?v=20261021n"></script>
+  <script src="theme-init.js?v=20261021p"></script>
 
   <!-- Pares tipográficos de los temas (serif de títulos + sans de cuerpo). -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" />
 
-  <link rel="stylesheet" href="styles.css?v=20261021n" />
+  <link rel="stylesheet" href="styles.css?v=20261021p" />
 </head>
 <body>
   <!-- Enlace de salto para accesibilidad por teclado -->
@@ -81,9 +81,6 @@
       <div class="hero__content">
         <p class="hero__eyebrow reveal" data-i18n="hero.eyebrow">La Romana · República Dominicana</p>
         <h1 id="heroTitle" class="hero__title reveal" data-i18n-html="hero.title">Tu descanso<br /><em>en La Romana</em></h1>
-        <p class="hero__lede reveal" data-i18n="hero.lede">
-          Nos sentimos en familia
-        </p>
       </div>
       <a class="hero__scroll" href="#experiencia" aria-label="Desplázate para ver más" data-i18n-aria="hero.scrollAria">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
@@ -231,19 +228,22 @@
         <div class="gallery__grid reveal" id="galeria-grid">
           <button type="button" class="gallery__item gallery__item--wide tilt3d"><img src="assets/hero.jpg?v=20261021e" alt="Piscina principal del hotel rodeada de palmeras" data-i18n-alt="gal.piscinaMain" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/recepcion.jpg" alt="Recepción y lobby del hotel" data-i18n-alt="gal.recepcion" loading="lazy" /></button>
-          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/fachada-logo.jpg" alt="Fachada con el logo del Hotel Las Cañas" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/fachada-entrada.jpg" alt="Fachada y entrada del Hotel Las Cañas" title="Nuestra entrada" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-doble.jpg" alt="Habitación doble" data-i18n-alt="gal.doble" loading="lazy" /></button>
           <button type="button" class="gallery__item gallery__item--wide tilt3d"><img src="assets/piscina-panoramica.jpg?v=20261021e" alt="Vista panorámica de la piscina" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/suite.jpg" alt="Habitación amplia con sala de estar" loading="lazy" /></button>
           <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/ubicacion.jpg" alt="Fachada y exterior del hotel" data-i18n-alt="gal.fachada" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/restaurante.jpg" alt="Restaurante y terraza del hotel" data-i18n-alt="gal.restaurante" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--wide tilt3d"><img src="assets/bar-recreo.jpg" alt="Bar y área de recreo del hotel" title="Nuestro bar / área de recreo" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-sencilla.jpg" alt="Habitación sencilla" data-i18n-alt="gal.sencilla" loading="lazy" /></button>
           <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/lobby.jpg" alt="Sala de espera del lobby" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-hotel.jpg" alt="Sala del Aparta Hotel" data-i18n-alt="gal.aparta" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/piscina.jpg" alt="Piscina con jacuzzi del hotel" data-i18n-alt="gal.jacuzzi" loading="lazy" /></button>
+          <button type="button" class="gallery__item tilt3d"><img src="assets/piscina-sombrilla.jpg" alt="Área de piscina con sombrilla y tumbonas" title="Nuestra piscina" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-comedor.jpg" alt="Comedor del Aparta Hotel" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-habitacion.jpg" alt="Dormitorio del Aparta Hotel" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/aparta-cocina.jpg" alt="Cocina del Aparta Hotel" loading="lazy" /></button>
+          <button type="button" class="gallery__item gallery__item--tall tilt3d"><img src="assets/pasillo-arte.jpg" alt="Pasillos decorados del hotel" title="Nuestros pasillos" loading="lazy" /></button>
           <button type="button" class="gallery__item tilt3d"><img src="assets/habitacion-03.jpg" alt="Habitación con escritorio y cama" loading="lazy" /></button>
         </div>
       </div>
@@ -356,7 +356,7 @@
       <div class="foot__brand">
         <img class="brand__logo brand__logo--claro" src="assets/logo-lascanas.png" alt="Hotel Las Cañas" width="92" height="57" />
         <img class="brand__logo brand__logo--oscuro" src="assets/logo-lascanas-oro.png" alt="" aria-hidden="true" width="92" height="57" />
-        <p class="foot__motto" data-i18n="foot.motto">Nos sentimos en familia.</p>
+        <p class="foot__motto" data-i18n="foot.motto">Nos sentimos en familia!</p>
         <div class="foot__controls">
           <nav class="foot__social" aria-label="Redes sociales" data-i18n-aria="foot.socialAria">
             <a href="https://instagram.com/hotel_lascanas" target="_blank" rel="noopener" aria-label="Instagram de Hotel Las Cañas" data-c="ig">
@@ -690,7 +690,7 @@
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
   </button>
 
-  <script src="app.js?v=20261021o"></script>
-  <script src="tilt3d.js?v=20261021n" defer></script>
+  <script src="app.js?v=20261021p"></script>
+  <script src="tilt3d.js?v=20261021p" defer></script>
 </body>
 </html>
